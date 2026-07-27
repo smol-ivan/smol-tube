@@ -1,0 +1,10 @@
+{
+  "name": "@smol-tube/backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:socket": "ts-node socketio/server.ts"
+  },
+  "dependencies": {
+    "@smol-tube/domain": "workspace:*"
+  }
+}

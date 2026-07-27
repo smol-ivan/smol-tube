@@ -1,0 +1,15 @@
+# .prettierignore
+
+# Ignore compiled production code
+dist/
+build/
+.prettierrc
+
+# Ignore specific files
+config.local.js
+
+*.html
+*.json
+*.css
+*.md
+

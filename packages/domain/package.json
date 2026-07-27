@@ -1,0 +1,13 @@
+{
+  "name": "@smol-tube/domain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+      "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+      "typescript": "^7.0.0"
+  }
+}
