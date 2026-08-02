@@ -2,9 +2,15 @@
   "name": "@smol-tube/backend",
   "version": "1.0.0",
   "scripts": {
-    "dev:socket": "ts-node socketio/server.ts"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1101.0",
+    "@aws-sdk/lib-dynamodb": "^3.1101.0",
     "@smol-tube/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.0"
   }
 }

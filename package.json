@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev:front": "pnpm --filter @cytube/frontend dev",
-    "dev:back": "pnpm --filter @cytube/backend dev:socket",
+    "dev:front": "pnpm --filter @smol-tube/frontend dev",
+    "dev:back": "pnpm --filter @smol-tube/backend dev:socket",
     "dev": "pnpm --parallel --filter @smol-tube/frontend --filter @smol-tube/backend run dev"
   },
   "author": "gordillosolis@icloud.com",

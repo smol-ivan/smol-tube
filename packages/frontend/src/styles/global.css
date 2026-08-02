@@ -1,1 +1,166 @@
 @import "tailwindcss";
+
+@theme {
+    /* ── Colors ─────────────────────────────────────── */
+    --color-surface: #081425;
+    --color-surface-dim: #081425;
+    --color-surface-bright: #2f3a4c;
+    --color-surface-container-lowest: #040e1f;
+    --color-surface-container-low: #111c2d;
+    --color-surface-container: #152031;
+    --color-surface-container-high: #1f2a3c;
+    --color-surface-container-highest: #2a3548;
+
+    --color-on-surface: #d8e3fb;
+    --color-on-surface-variant: #c6c6ca;
+    --color-inverse-surface: #d8e3fb;
+    --color-inverse-on-surface: #263143;
+    --color-surface-variant: #2a3548;
+
+    --color-outline: #8f9094;
+    --color-outline-variant: #45474a;
+    --color-surface-tint: #c6c6ca;
+
+    --color-primary: #c6c6ca;
+    --color-on-primary: #2f3034;
+    --color-primary-container: #121417;
+    --color-on-primary-container: #7d7e82;
+    --color-primary-fixed: #e2e2e6;
+    --color-primary-fixed-dim: #c6c6ca;
+    --color-on-primary-fixed: #1a1c1f;
+    --color-on-primary-fixed-variant: #45474a;
+    --color-inverse-primary: #5d5e62;
+
+    --color-secondary: #4ae176;
+    --color-on-secondary: #003915;
+    --color-secondary-container: #00b954;
+    --color-on-secondary-container: #004119;
+    --color-secondary-fixed: #6bff8f;
+    --color-secondary-fixed-dim: #4ae176;
+    --color-on-secondary-fixed: #002109;
+    --color-on-secondary-fixed-variant: #005321;
+
+    --color-tertiary: #adc6ff;
+    --color-on-tertiary: #002e6a;
+    --color-tertiary-container: #001334;
+    --color-on-tertiary-container: #317bef;
+    --color-tertiary-fixed: #d8e2ff;
+    --color-tertiary-fixed-dim: #adc6ff;
+    --color-on-tertiary-fixed: #001a42;
+    --color-on-tertiary-fixed-variant: #004395;
+
+    --color-error: #ffb4ab;
+    --color-on-error: #690005;
+    --color-error-container: #93000a;
+    --color-on-error-container: #ffdad6;
+
+    --color-background: #081425;
+    --color-on-background: #d8e3fb;
+
+    /* ── Font Families ───────────────────────────────── */
+    --font-headline-lg: "Geist", sans-serif;
+    --font-headline-md: "Geist", sans-serif;
+    --font-body-lg: "Inter", sans-serif;
+    --font-body-md: "Inter", sans-serif;
+    --font-label-md: "JetBrains Mono", monospace;
+    --font-label-sm: "JetBrains Mono", monospace;
+
+    /* ── Spacing ─────────────────────────────────────── */
+    --spacing-unit: 4px;
+    --spacing-gutter: 12px;
+    --spacing-margin: 16px;
+    --spacing-panel-padding: 12px;
+    --spacing-stack-gap: 8px;
+
+    /* ── Border Radius ───────────────────────────────── */
+    --radius-sm: 0.125rem;
+    --radius-DEFAULT: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
+}
+
+/* ── Base ──────────────────────────────────────────── */
+@layer base {
+    /* Custom scrollbar for an industrial feel */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--color-surface);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-surface-container-highest);
+        border: 1px solid var(--color-surface);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-outline-variant);
+    }
+}
+
+/* ── Utilities ─────────────────────────────────────── */
+@layer utilities {
+    .text-headline-lg {
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+    }
+    .text-headline-md {
+        font-size: 24px;
+        line-height: 32px;
+        letter-spacing: -0.01em;
+        font-weight: 600;
+    }
+    .text-body-lg {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400;
+    }
+    .text-body-md {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+    }
+    .text-label-md {
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+    }
+    .text-label-sm {
+        font-size: 10px;
+        line-height: 14px;
+        font-weight: 500;
+    }
+
+    /* Grid Layout Classes */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        grid-template-rows: 1fr;
+        height: calc(100vh - 48px);
+        overflow: hidden;
+    }
+    @media (max-width: 1200px) {
+        .dashboard-grid {
+            grid-template-columns: 240px 1fr;
+        }
+    }
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            min-height: calc(100vh - 48px);
+        }
+        .chat-panel,
+        .video-panel,
+        .playlist-panel {
+            height: auto;
+            min-height: 400px;
+        }
+    }
+}

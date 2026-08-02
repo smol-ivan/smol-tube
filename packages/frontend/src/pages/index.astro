@@ -1,17 +1,430 @@
 ---
-
+import "../styles/global.css";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!doctype html>
+<html lang="en" class="dark">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SMOL-TUBE</title>
+
+        <!-- Fuentes de Google -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body
+        class="bg-surface-container-lowest text-on-surface font-body-md h-screen overflow-hidden antialiased"
+    >
+        <!-- TopAppBar -->
+        <header
+            class="flex justify-between items-center h-12 w-full px-margin bg-surface-container-lowest dark:bg-surface-container-lowest border-b border-outline-variant docked full-width top-0 z-50"
+        >
+            <div class="flex items-center gap-6">
+                <h1
+                    class="font-headline-md text-headline-md font-bold text-secondary dark:text-secondary tracking-tighter"
+                >
+                    SYNC-INDUSTRIAL
+                </h1>
+                <nav class="hidden md:flex gap-4 items-center">
+                    <a
+                        class="font-label-md text-label-md text-secondary dark:text-secondary font-bold border-b-2 border-secondary pb-1 opacity-80 scale-95 transition-all"
+                        href="#">Home</a
+                    >
+                    <a
+                        class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/20 dark:hover:bg-surface-variant/20 transition-colors px-2 py-1"
+                        href="#">Account</a
+                    >
+                    <a
+                        class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/20 dark:hover:bg-surface-variant/20 transition-colors px-2 py-1"
+                        href="#">Options</a
+                    >
+                    <a
+                        class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/20 dark:hover:bg-surface-variant/20 transition-colors px-2 py-1"
+                        href="#">Layout</a
+                    >
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <span
+                    class="hidden sm:flex items-center gap-2 font-label-md text-label-md text-secondary"
+                >
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                    Connected: CYTUBE_MAIN
+                </span>
+                <div class="flex items-center gap-2 text-on-surface-variant">
+                    <button
+                        aria-label="settings"
+                        class="hover:bg-surface-variant/20 p-1 rounded transition-colors"
+                    >
+                        <span class="material-symbols-outlined text-[20px]"
+                            >settings</span
+                        >
+                    </button>
+                    <button
+                        aria-label="notifications"
+                        class="hover:bg-surface-variant/20 p-1 rounded transition-colors"
+                    >
+                        <span class="material-symbols-outlined text-[20px]"
+                            >notifications</span
+                        >
+                    </button>
+                </div>
+                <div class="h-6 w-px bg-outline-variant mx-2"></div>
+                <button
+                    class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors"
+                >
+                    Log out
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard-grid">
+            <!-- Left Panel: Chat & Users -->
+            <aside
+                class="chat-panel border-r border-outline-variant bg-surface flex flex-col h-full"
+            >
+                <!-- Connected Users Section -->
+                <div
+                    class="flex-shrink-0 flex flex-col border-b border-outline-variant"
+                >
+                    <div
+                        class="h-8 px-panel-padding flex items-center justify-between border-b border-outline-variant bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors"
+                    >
+                        <span
+                            class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+                        >
+                            <span
+                                class="material-symbols-outlined text-[14px] align-middle mr-1"
+                                >group</span
+                            >
+                            Users (1)
+                        </span>
+                        <span
+                            class="material-symbols-outlined text-[16px] text-on-surface-variant"
+                            >expand_more</span
+                        >
+                    </div>
+                    <div class="p-panel-padding max-h-32 overflow-y-auto">
+                        <div
+                            class="flex items-center gap-2 text-sm font-label-md text-label-md text-on-surface"
+                        >
+                            <span class="w-2 h-2 bg-secondary rounded-full"
+                            ></span>
+                            smol-test
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Section -->
+                <div class="flex-1 flex flex-col overflow-hidden">
+                    <div
+                        class="h-8 px-panel-padding flex items-center border-b border-outline-variant bg-surface-container-low"
+                    >
+                        <span
+                            class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+                        >
+                            <span
+                                class="material-symbols-outlined text-[14px] align-middle mr-1"
+                                >chat</span
+                            >
+                            Chat
+                        </span>
+                    </div>
+                    <!-- Chat Messages -->
+                    <div
+                        class="flex-1 overflow-y-auto p-panel-padding space-y-3 font-body-md text-body-md"
+                    >
+                        <div
+                            class="text-on-surface-variant text-center my-4 font-label-md text-label-md italic opacity-70"
+                        >
+                            --- Chat connected ---
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span
+                                class="font-label-md text-label-md text-tertiary"
+                                >smol-test:</span
+                            >
+                            <span class="text-on-surface break-words"
+                                >sync check</span
+                            >
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="font-label-md text-label-md text-error"
+                                >System:</span
+                            >
+                            <span class="text-on-surface break-words text-error"
+                                >Video synchronization enabled.</span
+                            >
+                        </div>
+                    </div>
+                    <!-- Chat Input -->
+                    <div
+                        class="p-2 border-t border-outline-variant bg-surface-container flex flex-col gap-2"
+                    >
+                        <div class="flex gap-2">
+                            <input
+                                class="flex-1 bg-surface-container-low border border-outline-variant rounded font-body-md text-body-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
+                                placeholder="Type a message..."
+                                type="text"
+                            />
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <button
+                                class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
+                            >
+                                Emote List
+                            </button>
+                            <button
+                                class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
+                            >
+                                Guest login
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Area: Video + Playlist -->
+            <div class="flex flex-col h-full overflow-hidden">
+                <!-- Center Panel: Video Player -->
+                <section
+                    class="video-panel flex flex-col flex-1 bg-surface-dim relative"
+                >
+                    <!-- Player Header -->
+                    <div
+                        class="h-8 px-panel-padding flex items-center justify-between border-b border-outline-variant bg-surface-container-low flex-shrink-0"
+                    >
+                        <div
+                            class="flex items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis"
+                        >
+                            <span
+                                class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+                                >Currently Playing:</span
+                            >
+                            <span
+                                class="font-label-md text-label-md text-on-surface truncate"
+                                >[PV] Let Me Hear/Fear, and Loathing in Las
+                                Vegas</span
+                            >
+                        </div>
+                        <div
+                            class="flex items-center gap-1 text-on-surface-variant"
+                        >
+                            <span
+                                class="material-symbols-outlined text-[16px] cursor-pointer hover:text-on-surface"
+                                >add</span
+                            >
+                            <span
+                                class="material-symbols-outlined text-[16px] cursor-pointer hover:text-on-surface"
+                                >remove</span
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Video Container -->
+                    <div
+                        class="flex-1 relative bg-black flex items-center justify-center overflow-hidden"
+                    >
+                        <div
+                            class="absolute inset-0 bg-cover bg-center w-full h-full opacity-80"
+                            data-alt="A stylized anime-style music video scene"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQR2j7oFq2gjSbOjrc7wmVlqZzPcx2wnQmjjIsiLDtVgTfDGZ84Ug-wedlwulWR8hhWShyCEDGT90S0RTxkPoYsSDe_XyyxZSFe0kFx9Alck4WvHfQsfsHfFox8LUG5DWyOSlqv3nVJ9_5G3GRVsN2TQ7Wbx08nhzSiN0Ga5k3hOG0yYmeUzxekogvu4-YVHEId9VeTj1Ew9wl8LHpFu0hxVPYkgbM2oW7eqL3jNrh5SRNn0vD6J6GcB0RWPAoLMeb9Nf0dQIcbTdp')"
+                        >
+                        </div>
+                        <div class="absolute bottom-12 text-center w-full">
+                            <span
+                                class="bg-black/60 px-4 py-1 text-2xl font-bold tracking-wide text-white"
+                                >absolutely</span
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Player Controls & Add Media -->
+                    <div
+                        class="p-panel-padding border-t border-outline-variant bg-surface-container flex-shrink-0 space-y-3"
+                    >
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-1">
+                                <button
+                                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
+                                    title="Add to Playlist"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >add</span
+                                    >
+                                </button>
+                                <button
+                                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
+                                    title="Search"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >search</span
+                                    >
+                                </button>
+                                <button
+                                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
+                                    title="Playlist List"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >format_list_bulleted</span
+                                    >
+                                </button>
+                                <button
+                                    class="bg-secondary/20 border border-secondary p-1.5 rounded text-secondary transition-colors"
+                                    title="Sync Status: Connected"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >check</span
+                                    >
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button
+                                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
+                                    title="Refresh Sync"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >sync</span
+                                    >
+                                </button>
+                                <button
+                                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
+                                    title="Fullscreen"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >fullscreen</span
+                                    >
+                                </button>
+                                <button
+                                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
+                                    title="Copy Link"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >link</span
+                                    >
+                                </button>
+                                <button
+                                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
+                                    title="Next Video"
+                                >
+                                    <span
+                                        class="material-symbols-outlined text-[18px]"
+                                        >skip_next</span
+                                    >
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Add Media Input -->
+                        <div class="flex gap-2">
+                            <input
+                                class="flex-1 bg-surface-container-low border border-outline-variant rounded font-label-md text-label-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
+                                placeholder="Media URL"
+                                type="text"
+                            />
+                            <button
+                                class="bg-surface-variant border border-outline-variant px-4 py-1.5 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors whitespace-nowrap"
+                            >
+                                Queue next
+                            </button>
+                            <button
+                                class="bg-surface-variant border border-outline-variant px-4 py-1.5 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors whitespace-nowrap"
+                            >
+                                Queue last
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 pl-1">
+                            <input
+                                type="checkbox"
+                                id="temp-add"
+                                checked
+                                class="rounded border-outline-variant bg-surface-container-low text-secondary focus:ring-secondary focus:ring-offset-surface-container h-3 w-3"
+                            />
+                            <label
+                                for="temp-add"
+                                class="font-body-md text-body-md text-on-surface-variant text-sm cursor-pointer hover:text-on-surface"
+                                >Add as temporary</label
+                            >
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bottom Panel: Playlist -->
+                <aside
+                    class="playlist-panel border-t border-outline-variant bg-surface flex flex-col h-64 flex-shrink-0"
+                >
+                    <div
+                        class="h-8 px-panel-padding flex items-center border-b border-outline-variant bg-surface-container-low"
+                    >
+                        <span
+                            class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+                        >
+                            <span
+                                class="material-symbols-outlined text-[14px] align-middle mr-1"
+                                >queue_music</span
+                            >
+                            Playlist
+                        </span>
+                    </div>
+                    <div class="flex-1 overflow-y-auto bg-surface-dim">
+                        <div
+                            class="flex items-center gap-2 p-2 border-b border-outline-variant bg-surface-container-high border-l-4 border-l-secondary cursor-pointer hover:bg-surface-container-highest group"
+                        >
+                            <div
+                                class="text-on-surface-variant/50 group-hover:text-on-surface-variant cursor-grab"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-[16px]"
+                                    >drag_indicator</span
+                                >
+                            </div>
+                            <div class="flex-1 overflow-hidden">
+                                <div
+                                    class="font-label-md text-label-md text-secondary truncate"
+                                    title="[PV] Let Me Hear/Fear, and Loathing in Las Vegas"
+                                >
+                                    [PV] Let Me Hear/Fear, and Loathing in Las
+                                    Vegas
+                                </div>
+                            </div>
+                            <div
+                                class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap"
+                            >
+                                03:55
+                            </div>
+                        </div>
+                        <div
+                            class="p-2 border-b border-outline-variant bg-surface/50 flex justify-between items-center"
+                        >
+                            <span
+                                class="font-label-md text-label-md text-on-surface-variant"
+                                >1 item</span
+                            >
+                            <span
+                                class="font-label-md text-label-md text-on-surface-variant"
+                                >03:55</span
+                            >
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </body>
 </html>
