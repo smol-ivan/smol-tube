@@ -1,4 +1,35 @@
 ---
-import '../styles/global.css'
+import "../styles/global.css";
+
+interface Props {
+    title?: string;
+}
+
+const { title = "SMOL-TUBE" } = Astro.props;
 
 ---
+
+<!doctype html>
+<html lang="en" class="dark">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body
+        class="bg-surface-container-lowest text-on-surface font-body-md h-screen overflow-hidden antialiased"
+    >
+        <slot />
+    </body>
+</html>

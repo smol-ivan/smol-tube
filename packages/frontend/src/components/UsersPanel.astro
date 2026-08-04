@@ -1,0 +1,34 @@
+---
+interface Props {
+    userCount: number;
+    currentUser: string;
+}
+
+const { userCount, currentUser } = Astro.props;
+---
+
+<div class="flex-shrink-0 flex flex-col border-b border-outline-variant">
+    <div
+        class="h-8 px-panel-padding flex items-center justify-between border-b border-outline-variant bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors"
+    >
+        <span
+            class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+        >
+            <span class="material-symbols-outlined text-[14px] align-middle mr-1"
+                >group</span
+            >
+            Users ({userCount})
+        </span>
+        <span class="material-symbols-outlined text-[16px] text-on-surface-variant"
+            >expand_more</span
+        >
+    </div>
+    <div class="p-panel-padding max-h-32 overflow-y-auto">
+        <div
+            class="flex items-center gap-2 text-sm font-label-md text-label-md text-on-surface"
+        >
+            <span class="w-2 h-2 bg-secondary rounded-full"></span>
+            {currentUser}
+        </div>
+    </div>
+</div>

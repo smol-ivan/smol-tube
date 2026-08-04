@@ -9,11 +9,9 @@
     // See also https://aka.ms/tsconfig/module
     // "module": "nodenext",
     "target": "es6",
-    "types": [],
     // For nodejs:
-    "lib": ["es2016"],
-    // "types": ["node"],
-    // and npm install -D @types/node
+    "lib": ["es2022", "dom"],
+    "types": ["node"],
 
     // Other Outputs
     "sourceMap": true,

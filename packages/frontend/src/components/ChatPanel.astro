@@ -1,0 +1,68 @@
+---
+interface Props {
+    currentUser: string;
+    chatMessage: string;
+    systemMessage: string;
+}
+
+const { currentUser, chatMessage, systemMessage } = Astro.props;
+---
+
+<div class="flex-1 flex flex-col overflow-hidden">
+    <div
+        class="h-8 px-panel-padding flex items-center border-b border-outline-variant bg-surface-container-low"
+    >
+        <span
+            class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+        >
+            <span class="material-symbols-outlined text-[14px] align-middle mr-1"
+                >chat</span
+            >
+            Chat
+        </span>
+    </div>
+    <div
+        class="flex-1 overflow-y-auto p-panel-padding space-y-3 font-body-md text-body-md"
+    >
+        <div
+            class="text-on-surface-variant text-center my-4 font-label-md text-label-md italic opacity-70"
+        >
+            --- Chat connected ---
+        </div>
+        <div class="flex items-start gap-2">
+            <span class="font-label-md text-label-md text-tertiary"
+                >{currentUser}:</span
+            >
+            <span class="text-on-surface break-words">{chatMessage}</span>
+        </div>
+        <div class="flex items-start gap-2">
+            <span class="font-label-md text-label-md text-error">System:</span>
+            <span class="text-on-surface break-words text-error"
+                >{systemMessage}</span
+            >
+        </div>
+    </div>
+    <div
+        class="p-2 border-t border-outline-variant bg-surface-container flex flex-col gap-2"
+    >
+        <div class="flex gap-2">
+            <input
+                class="flex-1 bg-surface-container-low border border-outline-variant rounded font-body-md text-body-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
+                placeholder="Type a message..."
+                type="text"
+            />
+        </div>
+        <div class="flex justify-between items-center">
+            <button
+                class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
+            >
+                Emote List
+            </button>
+            <button
+                class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
+            >
+                Guest login
+            </button>
+        </div>
+    </div>
+</div>

@@ -176,7 +176,7 @@ export interface ApplyChatMessageRequest {
 
 export function applyChatMessage(
     request: ApplyChatMessageRequest,
-): Message | null {
+): ChatMessage | null {
     const { requestingUser, message: message } = request;
 
     if (!hasPermission(requestingUser, "chat:send")) {
@@ -276,6 +276,9 @@ export function applyPlaylistReorder(
 
     const updatedPlaylist = [...room.playlist];
     const [movedItem] = updatedPlaylist.splice(fromIndex, 1);
+    if (!movedItem) {
+        return null;
+    }
     updatedPlaylist.splice(toIndex, 0, movedItem);
 
     return {

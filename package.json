@@ -6,7 +6,7 @@
   "scripts": {
     "dev:front": "pnpm --filter @smol-tube/frontend dev",
     "dev:back": "pnpm --filter @smol-tube/backend dev:socket",
-    "dev": "pnpm --parallel --filter @smol-tube/frontend --filter @smol-tube/backend run dev"
+    "dev": "pnpm --filter @smol-tube/frontend --filter @smol-tube/backend --parallel dev"
   },
   "author": "gordillosolis@icloud.com",
   "license": "ISC",

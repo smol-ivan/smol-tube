@@ -1,0 +1,40 @@
+---
+interface Props {
+    mediaPlaceholder: string;
+    temporaryFieldId: string;
+    temporaryLabel: string;
+}
+
+const { mediaPlaceholder, temporaryFieldId, temporaryLabel } = Astro.props;
+---
+
+<div class="flex gap-2">
+    <input
+        class="flex-1 bg-surface-container-low border border-outline-variant rounded font-label-md text-label-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
+        placeholder={mediaPlaceholder}
+        type="text"
+    />
+    <button
+        class="bg-surface-variant border border-outline-variant px-4 py-1.5 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors whitespace-nowrap"
+    >
+        Queue next
+    </button>
+    <button
+        class="bg-surface-variant border border-outline-variant px-4 py-1.5 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors whitespace-nowrap"
+    >
+        Queue last
+    </button>
+</div>
+<div class="flex items-center gap-2 pl-1">
+    <input
+        type="checkbox"
+        id={temporaryFieldId}
+        checked
+        class="rounded border-outline-variant bg-surface-container-low text-secondary focus:ring-secondary focus:ring-offset-surface-container h-3 w-3"
+    />
+    <label
+        for={temporaryFieldId}
+        class="font-body-md text-body-md text-on-surface-variant text-sm cursor-pointer hover:text-on-surface"
+        >{temporaryLabel}</label
+    >
+</div>
