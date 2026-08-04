@@ -4,8 +4,7 @@
 // el proceso Node esté vivo. Se pierde al reiniciar -- coherente con
 // tu decisión de no persistir nada de verdad.
 
-import { RoomRepository } from '@smol-tube/domain/repositories';
-import { Room } from '@smol-tube/domain/room';
+import { Room, RoomRepository } from "@smol-tube/domain";
 
 export class InMemoryRoomRepository implements RoomRepository {
     private rooms = new Map<string, Room>();

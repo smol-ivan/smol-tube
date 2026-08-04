@@ -18,8 +18,7 @@ import {
     PutCommand,
     DeleteCommand,
 } from '@aws-sdk/lib-dynamodb';
-import { RoomRepository } from '@smol-tube/domain/repositories';
-import { Room } from '@smol-tube/domain/room';
+import { Room, RoomRepository } from "@smol-tube/domain";
 
 export class DynamoRoomRepository implements RoomRepository {
     private doc: DynamoDBDocumentClient;
