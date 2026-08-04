@@ -5,8 +5,9 @@
 // que tanto tu adapter de Socket.IO local como tu Lambda de producción
 // van a llamar -- sin reescribirla.
 
-import { Room, isBanned } from './room';
-import { User, hasPermission } from './user';
+import { Room, isBanned } from "./room";
+import { User, hasPermission } from "./user";
+import { Connection } from "./connection";
 
 export interface MediaUpdateRequest {
     requestingUser: User;
@@ -18,7 +19,10 @@ export interface MediaUpdateRequest {
 // Devuelve el nuevo estado de reproducción si la petición es válida,
 // o null si debe ignorarse (mismo comportamiento que el
 // "if (this.leader !== user) return;" que vimos en playlist.js).
-export function applyMediaUpdate(room: Room, request: MediaUpdateRequest): Room | null {
+export function applyMediaUpdate(
+    room: Room,
+    request: MediaUpdateRequest,
+): Room | null {
     const { requestingUser, videoId, currentTime, paused } = request;
 
     if (room.playback.leaderUserId !== requestingUser.userId) {
@@ -29,7 +33,7 @@ export function applyMediaUpdate(room: Room, request: MediaUpdateRequest): Room 
         return null; // el update es de un video que ya no es el actual
     }
 
-    if (!hasPermission(requestingUser, 'playback:control')) {
+    if (!hasPermission(requestingUser, "playback:control")) {
         return null; // por si el rol cambió a media conexión
     }
 
@@ -47,14 +51,17 @@ export interface BecomeLeaderRequest {
     requestingUser: User;
 }
 
-export function applyBecomeLeader(room: Room, request: BecomeLeaderRequest): Room | null {
+export function applyBecomeLeader(
+    room: Room,
+    request: BecomeLeaderRequest,
+): Room | null {
     const { requestingUser } = request;
 
     if (isBanned(room, requestingUser.userId)) {
         return null;
     }
 
-    if (!hasPermission(requestingUser, 'playback:becomeLeader')) {
+    if (!hasPermission(requestingUser, "playback:becomeLeader")) {
         return null;
     }
 
