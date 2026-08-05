@@ -472,8 +472,7 @@ function parseYouTubeId(input: string): string | null {
         // not a url, maybe it's an id
     }
     // fallback: if matches common id chars
-    const simpleId = idCandidate.match(/^[a-zA-Z0-9_-]{8,}$
-/);
+    const simpleId = idCandidate.match(/^[a-zA-Z0-9_-]{8,}$/);
     if (simpleId) return idCandidate;
     return null;
 }
