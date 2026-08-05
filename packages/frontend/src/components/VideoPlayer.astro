@@ -1,14 +1,9 @@
 ---
-const previewImageUrl =
-    Astro.props.previewImageUrl ??
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAQR2j7oFq2gjSbOjrc7wmVlqZzPcx2wnQmjjIsiLDtVgTfDGZ84Ug-wedlwulWR8hhWShyCEDGT90S0RTxkPoYsSDe_XyyxZSFe0kFx9Alck4WvHfQsfsHfFox8LUG5DWyOSlqv3nVJ9_5G3GRVsN2TQ7Wbx08nhzSiN0Ga5k3hOG0yYmeUzxekogvu4-YVHEId9VeTj1Ew9wl8LHpFu0hxVPYkgbM2oW7eqL3jNrh5SRNn0vD6J6GcB0RWPAoLMeb9Nf0dQIcbTdp";
-
 interface Props {
-    currentTitle: string;
-    previewImageUrl: string;
+    currentTitle?: string;
 }
 
-const { currentTitle } = Astro.props;
+const { currentTitle = "Sin video" } = Astro.props;
 ---
 
 <section class="video-panel flex flex-col flex-1 bg-surface-dim relative">

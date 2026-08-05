@@ -1,12 +1,5 @@
 ---
-interface Props {
-    itemTitle: string;
-    itemDuration: string;
-    totalItemsLabel: string;
-    totalDuration: string;
-}
-
-const { itemTitle, itemDuration, totalItemsLabel, totalDuration } = Astro.props;
+// PlaylistPanel.astro — sin props estáticos, JS controla todo
 ---
 
 <aside
@@ -24,39 +17,26 @@ const { itemTitle, itemDuration, totalItemsLabel, totalDuration } = Astro.props;
             Playlist
         </span>
     </div>
-    <div class="flex-1 overflow-y-auto bg-surface-dim">
-        <div
-            class="flex items-center gap-2 p-2 border-b border-outline-variant bg-surface-container-high border-l-4 border-l-secondary cursor-pointer hover:bg-surface-container-highest group"
-        >
+    <div class="flex-1 overflow-y-auto bg-surface-dim flex flex-col">
+        <!-- El JS renderiza los items aquí -->
+        <div data-playlist-items class="flex flex-col flex-1">
             <div
-                class="text-on-surface-variant/50 group-hover:text-on-surface-variant cursor-grab"
+                class="flex-1 flex items-center justify-center p-4 text-center font-label-md text-label-md text-on-surface-variant opacity-40 italic"
             >
-                <span class="material-symbols-outlined text-[16px]"
-                    >drag_indicator</span
-                >
-            </div>
-            <div class="flex-1 overflow-hidden">
-                <div
-                    class="font-label-md text-label-md text-secondary truncate"
-                    title={itemTitle}
-                >
-                    {itemTitle}
-                </div>
-            </div>
-            <div
-                class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap"
-            >
-                {itemDuration}
+                La playlist está vacía
             </div>
         </div>
+        <!-- Footer -->
         <div
-            class="p-2 border-b border-outline-variant bg-surface/50 flex justify-between items-center"
+            class="px-panel-padding py-1 border-t border-outline-variant bg-surface/50 flex justify-between items-center flex-shrink-0"
         >
-            <span class="font-label-md text-label-md text-on-surface-variant"
-                >{totalItemsLabel}</span
+            <span
+                data-playlist-count
+                class="font-label-md text-label-md text-on-surface-variant">0 items</span
             >
-            <span class="font-label-md text-label-md text-on-surface-variant"
-                >{totalDuration}</span
+            <span
+                data-playlist-duration
+                class="font-label-md text-label-md text-on-surface-variant">00:00</span
             >
         </div>
     </div>

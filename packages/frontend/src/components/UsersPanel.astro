@@ -1,10 +1,5 @@
 ---
-interface Props {
-    userCount: number;
-    currentUser: string;
-}
-
-const { userCount, currentUser } = Astro.props;
+// UsersPanel.astro — sin props estáticos, JS controla todo
 ---
 
 <div class="flex-shrink-0 flex flex-col border-b border-outline-variant">
@@ -15,21 +10,14 @@ const { userCount, currentUser } = Astro.props;
             data-users-count
             class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
         >
-            <span class="material-symbols-outlined text-[14px] align-middle mr-1"
-                >group</span
-            >
-            Users ({userCount})
+            <span class="material-symbols-outlined text-[14px] align-middle mr-1">group</span>
+            Users (0)
         </span>
         <span class="material-symbols-outlined text-[16px] text-on-surface-variant"
             >expand_more</span
         >
     </div>
     <div data-users-list class="p-panel-padding max-h-32 overflow-y-auto">
-        <div
-            class="flex items-center gap-2 text-sm font-label-md text-label-md text-on-surface"
-        >
-            <span class="w-2 h-2 bg-secondary rounded-full"></span>
-            {currentUser}
-        </div>
+        <!-- El JS renderiza los usuarios aquí -->
     </div>
 </div>

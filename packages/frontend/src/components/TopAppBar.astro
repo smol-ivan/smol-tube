@@ -1,9 +1,6 @@
 ---
-const connectedLabel = Astro.props.connectedLabel ?? "CYTUBE_MAIN";
-
 interface Props {
     appName: string;
-    connectedLabel: string;
 }
 
 const { appName } = Astro.props;
@@ -26,10 +23,6 @@ const { appName } = Astro.props;
             >
             <a
                 class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/20 dark:hover:bg-surface-variant/20 transition-colors px-2 py-1"
-                href="#">Account</a
-            >
-            <a
-                class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/20 dark:hover:bg-surface-variant/20 transition-colors px-2 py-1"
                 href="#">Options</a
             >
             <a
@@ -44,29 +37,33 @@ const { appName } = Astro.props;
             class="hidden sm:flex items-center gap-2 font-label-md text-label-md text-secondary"
         >
             <span class="w-2 h-2 rounded-full bg-secondary"></span>
-            Connected: {connectedLabel}
+            Disconnected
         </span>
+
+        <!-- Usuario actual (visible tras login) -->
+        <span
+            data-current-user
+            class="hidden font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded border border-outline-variant"
+        ></span>
+
         <div class="flex items-center gap-2 text-on-surface-variant">
             <button
                 aria-label="settings"
                 class="hover:bg-surface-variant/20 p-1 rounded transition-colors"
             >
-                <span class="material-symbols-outlined text-[20px]"
-                    >settings</span
-                >
+                <span class="material-symbols-outlined text-[20px]">settings</span>
             </button>
             <button
                 aria-label="notifications"
                 class="hover:bg-surface-variant/20 p-1 rounded transition-colors"
             >
-                <span class="material-symbols-outlined text-[20px]"
-                    >notifications</span
-                >
+                <span class="material-symbols-outlined text-[20px]">notifications</span>
             </button>
         </div>
         <div class="h-6 w-px bg-outline-variant mx-2"></div>
         <button
-            class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors"
+            data-logout-button
+            class="hidden font-label-md text-label-md text-on-surface-variant hover:text-error transition-colors"
         >
             Log out
         </button>

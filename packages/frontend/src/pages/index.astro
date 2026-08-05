@@ -6,42 +6,31 @@ import ChatPanel from "../components/ChatPanel.astro";
 import VideoPlayer from "../components/VideoPlayer.astro";
 import MediaQueueForm from "../components/MediaQueueForm.astro";
 import PlaylistPanel from "../components/PlaylistPanel.astro";
+import LoginModal from "../components/LoginModal.astro";
 ---
 
 <Layout title="smol-tube">
-    <TopAppBar appName="smol-tube" connectedLabel="CYTUBE_MAIN" />
+    <LoginModal />
+    <TopAppBar appName="smol-tube" />
 
     <main class="dashboard-grid">
         <aside
             class="chat-panel border-r border-outline-variant bg-surface flex flex-col h-full"
         >
-            <UsersPanel userCount={1} currentUser="smol-test" />
-            <ChatPanel
-                currentUser="smol-test"
-                chatMessage="sync check"
-                systemMessage="Video synchronization enabled."
-                connectedMessage="--- Chat connected ---"
-            />
+            <UsersPanel />
+            <ChatPanel />
         </aside>
 
         <div class="flex flex-col h-full overflow-hidden">
-            <VideoPlayer
-                currentTitle="[PV] Let Me Hear/Fear, and Loathing in Las Vegas"
-                subtitleText="absolutely"
-            >
+            <VideoPlayer>
                 <MediaQueueForm
-                    mediaPlaceholder="Media URL"
+                    mediaPlaceholder="URL o ID de YouTube"
                     temporaryFieldId="temp-add"
-                    temporaryLabel="Add as temporary"
+                    temporaryLabel="Agregar como temporal"
                 />
             </VideoPlayer>
 
-            <PlaylistPanel
-                itemTitle="[PV] Let Me Hear/Fear, and Loathing in Las Vegas"
-                itemDuration="03:55"
-                totalItemsLabel="1 item"
-                totalDuration="03:55"
-            />
+            <PlaylistPanel />
         </div>
     </main>
 

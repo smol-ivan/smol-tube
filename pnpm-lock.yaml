@@ -205,14 +205,7 @@ settings:
 
 importers:
 
-  .:
-    devDependencies:
-      prettier:
-        specifier: ^3.9.6
-        version: 3.9.6
-      prettier-plugin-astro:
-        specifier: ^0.14.1
-        version: 0.14.1
+  .: {}
 
   packages/backend:
     dependencies:

@@ -1,13 +1,5 @@
 ---
-interface Props {
-    currentUser: string;
-    chatMessage: string;
-    systemMessage: string;
-    connectedMessage?: string;
-}
-
-const connectedMessage = Astro.props.connectedMessage ?? "--- Chat connected ---";
-const { currentUser, chatMessage, systemMessage } = Astro.props;
+// ChatPanel.astro — sin props, todo lo maneja el JS
 ---
 
 <div class="flex-1 flex flex-col overflow-hidden">
@@ -17,9 +9,7 @@ const { currentUser, chatMessage, systemMessage } = Astro.props;
         <span
             class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
         >
-            <span class="material-symbols-outlined text-[14px] align-middle mr-1"
-                >chat</span
-            >
+            <span class="material-symbols-outlined text-[14px] align-middle mr-1">chat</span>
             Chat
         </span>
     </div>
@@ -27,23 +17,7 @@ const { currentUser, chatMessage, systemMessage } = Astro.props;
         data-chat-messages
         class="flex-1 overflow-y-auto p-panel-padding space-y-3 font-body-md text-body-md"
     >
-        <div
-            class="text-on-surface-variant text-center my-4 font-label-md text-label-md italic opacity-70"
-        >
-            {connectedMessage}
-        </div>
-        <div class="flex items-start gap-2">
-            <span class="font-label-md text-label-md text-tertiary"
-                >{currentUser}:</span
-            >
-            <span class="text-on-surface break-words">{chatMessage}</span>
-        </div>
-        <div class="flex items-start gap-2">
-            <span class="font-label-md text-label-md text-error">System:</span>
-            <span class="text-on-surface break-words text-error"
-                >{systemMessage}</span
-            >
-        </div>
+        <!-- El JS renderiza aquí los mensajes -->
     </div>
     <div
         class="p-2 border-t border-outline-variant bg-surface-container flex flex-col gap-2"
@@ -52,22 +26,27 @@ const { currentUser, chatMessage, systemMessage } = Astro.props;
             <input
                 data-chat-input
                 class="flex-1 bg-surface-container-low border border-outline-variant rounded font-body-md text-body-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
-                placeholder="Type a message..."
+                placeholder="Escribe un mensaje..."
                 type="text"
             />
+            <button
+                data-chat-send
+                class="bg-secondary/20 border border-secondary px-3 py-1.5 text-secondary font-label-md text-label-md rounded hover:bg-secondary/30 transition-colors"
+            >
+                Enviar
+            </button>
         </div>
         <div class="flex justify-between items-center">
             <button
-                data-chat-send
                 class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
             >
-                Emote List
+                Emotes
             </button>
             <button
                 data-guest-login
                 class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
             >
-                Guest login
+                Cambiar cuenta
             </button>
         </div>
     </div>

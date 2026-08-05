@@ -1,0 +1,90 @@
+---
+// LoginModal.astro
+// Siempre está en el DOM, JS controla visibilidad via data-login-modal
+---
+
+<div
+    data-login-modal
+    class="hidden fixed inset-0 z-50 flex items-center justify-center"
+    aria-modal="true"
+    role="dialog"
+    aria-labelledby="login-modal-title"
+>
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm"></div>
+
+    <!-- Card -->
+    <div class="relative bg-surface-container border border-outline-variant rounded-xl p-8 w-[380px] max-w-[92vw] shadow-2xl">
+        <!-- Header -->
+        <div class="mb-6">
+            <h2
+                id="login-modal-title"
+                class="font-headline-sm text-headline-sm font-bold text-secondary tracking-tighter mb-1"
+            >
+                smol-tube
+            </h2>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Elige tu nombre para unirte a la sala
+            </p>
+        </div>
+
+        <!-- Campos -->
+        <div class="space-y-4 mb-5">
+            <div>
+                <label
+                    class="block font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-1.5"
+                    for="login-name-input"
+                >
+                    Nombre de usuario
+                </label>
+                <input
+                    id="login-name-input"
+                    type="text"
+                    maxlength="30"
+                    autocomplete="off"
+                    placeholder="Tu nombre..."
+                    class="w-full bg-surface-container-low border border-outline-variant rounded-md px-3 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/40 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors"
+                />
+            </div>
+            <div>
+                <label
+                    class="block font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-1.5"
+                    for="login-password-input"
+                >
+                    Contraseña
+                    <span class="normal-case tracking-normal font-normal opacity-60 ml-1">
+                        — solo para cuentas mod/admin
+                    </span>
+                </label>
+                <input
+                    id="login-password-input"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Vacío para entrar como invitado"
+                    class="w-full bg-surface-container-low border border-outline-variant rounded-md px-3 py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/40 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors"
+                />
+            </div>
+        </div>
+
+        <!-- Error -->
+        <p
+            id="login-error-msg"
+            class="hidden text-error font-body-sm text-body-sm mb-3 px-1"
+        ></p>
+
+        <!-- Submit -->
+        <button
+            id="login-submit-btn"
+            class="w-full bg-secondary text-on-secondary font-label-md text-label-md font-bold py-2.5 rounded-md hover:opacity-90 active:scale-[.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+            Unirse a la sala
+        </button>
+
+        <!-- Hint cuentas seed -->
+        <p class="mt-4 font-body-sm text-body-sm text-on-surface-variant text-center opacity-50 text-xs">
+            Cuentas disponibles:
+            <span class="text-secondary opacity-100">smol-ivan</span> (admin) ·
+            <span class="text-secondary opacity-100">cherry</span> (mod)
+        </p>
+    </div>
+</div>
