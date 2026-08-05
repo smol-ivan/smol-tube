@@ -3,8 +3,10 @@ interface Props {
     currentUser: string;
     chatMessage: string;
     systemMessage: string;
+    connectedMessage?: string;
 }
 
+const connectedMessage = Astro.props.connectedMessage ?? "--- Chat connected ---";
 const { currentUser, chatMessage, systemMessage } = Astro.props;
 ---
 
@@ -22,12 +24,13 @@ const { currentUser, chatMessage, systemMessage } = Astro.props;
         </span>
     </div>
     <div
+        data-chat-messages
         class="flex-1 overflow-y-auto p-panel-padding space-y-3 font-body-md text-body-md"
     >
         <div
             class="text-on-surface-variant text-center my-4 font-label-md text-label-md italic opacity-70"
         >
-            --- Chat connected ---
+            {connectedMessage}
         </div>
         <div class="flex items-start gap-2">
             <span class="font-label-md text-label-md text-tertiary"
@@ -47,6 +50,7 @@ const { currentUser, chatMessage, systemMessage } = Astro.props;
     >
         <div class="flex gap-2">
             <input
+                data-chat-input
                 class="flex-1 bg-surface-container-low border border-outline-variant rounded font-body-md text-body-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
                 placeholder="Type a message..."
                 type="text"
@@ -54,11 +58,13 @@ const { currentUser, chatMessage, systemMessage } = Astro.props;
         </div>
         <div class="flex justify-between items-center">
             <button
+                data-chat-send
                 class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
             >
                 Emote List
             </button>
             <button
+                data-guest-login
                 class="bg-surface-variant border border-outline-variant px-3 py-1 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors"
             >
                 Guest login

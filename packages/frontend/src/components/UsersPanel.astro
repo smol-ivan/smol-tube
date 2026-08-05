@@ -12,6 +12,7 @@ const { userCount, currentUser } = Astro.props;
         class="h-8 px-panel-padding flex items-center justify-between border-b border-outline-variant bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors"
     >
         <span
+            data-users-count
             class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
         >
             <span class="material-symbols-outlined text-[14px] align-middle mr-1"
@@ -23,7 +24,7 @@ const { userCount, currentUser } = Astro.props;
             >expand_more</span
         >
     </div>
-    <div class="p-panel-padding max-h-32 overflow-y-auto">
+    <div data-users-list class="p-panel-padding max-h-32 overflow-y-auto">
         <div
             class="flex items-center gap-2 text-sm font-label-md text-label-md text-on-surface"
         >

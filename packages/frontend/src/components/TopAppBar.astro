@@ -1,13 +1,16 @@
 ---
+const connectedLabel = Astro.props.connectedLabel ?? "CYTUBE_MAIN";
+
 interface Props {
     appName: string;
     connectedLabel: string;
 }
 
-const { appName, connectedLabel } = Astro.props;
+const { appName } = Astro.props;
 ---
 
 <header
+    data-topbar
     class="flex justify-between items-center h-12 w-full px-margin bg-surface-container-lowest dark:bg-surface-container-lowest border-b border-outline-variant docked full-width top-0 z-50"
 >
     <div class="flex items-center gap-6">
@@ -37,6 +40,7 @@ const { appName, connectedLabel } = Astro.props;
     </div>
     <div class="flex items-center gap-4">
         <span
+            data-connected-label
             class="hidden sm:flex items-center gap-2 font-label-md text-label-md text-secondary"
         >
             <span class="w-2 h-2 rounded-full bg-secondary"></span>

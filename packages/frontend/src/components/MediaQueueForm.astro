@@ -10,16 +10,19 @@ const { mediaPlaceholder, temporaryFieldId, temporaryLabel } = Astro.props;
 
 <div class="flex gap-2">
     <input
+        data-media-input
         class="flex-1 bg-surface-container-low border border-outline-variant rounded font-label-md text-label-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
         placeholder={mediaPlaceholder}
         type="text"
     />
     <button
+        data-queue-next
         class="bg-surface-variant border border-outline-variant px-4 py-1.5 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors whitespace-nowrap"
     >
         Queue next
     </button>
     <button
+        data-queue-last
         class="bg-surface-variant border border-outline-variant px-4 py-1.5 text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-highest transition-colors whitespace-nowrap"
     >
         Queue last
@@ -27,6 +30,7 @@ const { mediaPlaceholder, temporaryFieldId, temporaryLabel } = Astro.props;
 </div>
 <div class="flex items-center gap-2 pl-1">
     <input
+        data-temporary-checkbox
         type="checkbox"
         id={temporaryFieldId}
         checked

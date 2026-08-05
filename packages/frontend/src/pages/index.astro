@@ -20,13 +20,13 @@ import PlaylistPanel from "../components/PlaylistPanel.astro";
                 currentUser="smol-test"
                 chatMessage="sync check"
                 systemMessage="Video synchronization enabled."
+                connectedMessage="--- Chat connected ---"
             />
         </aside>
 
         <div class="flex flex-col h-full overflow-hidden">
             <VideoPlayer
                 currentTitle="[PV] Let Me Hear/Fear, and Loathing in Las Vegas"
-                previewImageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAQR2j7oFq2gjSbOjrc7wmVlqZzPcx2wnQmjjIsiLDtVgTfDGZ84Ug-wedlwulWR8hhWShyCEDGT90S0RTxkPoYsSDe_XyyxZSFe0kFx9Alck4WvHfQsfsHfFox8LUG5DWyOSlqv3nVJ9_5G3GRVsN2TQ7Wbx08nhzSiN0Ga5k3hOG0yYmeUzxekogvu4-YVHEId9VeTj1Ew9wl8LHpFu0hxVPYkgbM2oW7eqL3jNrh5SRNn0vD6J6GcB0RWPAoLMeb9Nf0dQIcbTdp"
                 subtitleText="absolutely"
             >
                 <MediaQueueForm
@@ -44,4 +44,6 @@ import PlaylistPanel from "../components/PlaylistPanel.astro";
             />
         </div>
     </main>
+
+    <script type="module" src="../scripts/index.ts"></script>
 </Layout>
