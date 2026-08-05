@@ -343,6 +343,7 @@ io.on("connection", (socket) => {
             await socket.join(roomId);
             io.to(roomId).emit("presenceChanged", {
                 userId: user.userId,
+                displayName: user.displayName,
                 connected: true,
             });
             ok(ack, { room, user });
@@ -695,6 +696,8 @@ io.on("connection", (socket) => {
         await connectionRepository.deleteConnection(connection.connectionId);
         io.to(connection.roomId).emit("presenceChanged", {
             userId: connection.userId,
+            // attempt to include displayName where available
+            displayName: (await userRepository.getUserById(connection.userId))?.displayName ?? null,
             connected: false,
         });
     });

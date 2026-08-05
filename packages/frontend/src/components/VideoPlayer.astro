@@ -6,10 +6,9 @@ const previewImageUrl =
 interface Props {
     currentTitle: string;
     previewImageUrl: string;
-    subtitleText: string;
 }
 
-const { currentTitle, subtitleText } = Astro.props;
+const { currentTitle } = Astro.props;
 ---
 
 <section class="video-panel flex flex-col flex-1 bg-surface-dim relative">
@@ -42,17 +41,7 @@ const { currentTitle, subtitleText } = Astro.props;
     <div
         class="flex-1 relative bg-black flex items-center justify-center overflow-hidden"
     >
-        <div
-            class="absolute inset-0 bg-cover bg-center w-full h-full opacity-80"
-            data-alt="A stylized anime-style music video scene"
-            style={`background-image: url('${previewImageUrl}')`}
-        >
-        </div>
-        <div class="absolute bottom-12 text-center w-full">
-            <span class="bg-black/60 px-4 py-1 text-2xl font-bold tracking-wide text-white"
-                >{subtitleText}</span
-            >
-        </div>
+        <div id="yt-player" class="absolute inset-0 w-full h-full"></div>
     </div>
 
     <div
