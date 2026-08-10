@@ -21,7 +21,12 @@ function doLogout(): void {
     state.users = [];
     state.chat = [];
     state.playlist = [];
-    state.playback = { videoId: null, currentTime: 0, paused: true, leaderUserId: null };
+    state.playback = {
+        videoId: null,
+        currentTime: 0,
+        paused: true,
+        leaderUserId: null,
+    };
     state.connected = false;
 
     renderUsers();
@@ -36,6 +41,28 @@ function doLogout(): void {
 // DOM event listeners
 // ──────────────────────────────────────────────────────────────
 function attachEventListeners(): void {
+    // Manipulate css of media player
+    let currentChatWidth = 280;
+    const STEP = 40;
+    const MIN_CHAT_WIDTH = 150;
+    const MAX_CHAT_WIDTH = 450;
+
+    elements.playerExpandBtn?.addEventListener("click", () => {
+        // Para que el reproductor crezca, el chat debe encogerse
+        currentChatWidth = Math.max(MIN_CHAT_WIDTH, currentChatWidth - STEP);
+        if (elements.dashboardGrid) {
+            elements.dashboardGrid.style.gridTemplateColumns = `${currentChatWidth}px 1fr`;
+        }
+    });
+
+    elements.playerShrinkBtn?.addEventListener("click", () => {
+        // Para que el reproductor se reduzca, el chat debe crecer
+        currentChatWidth = Math.min(MAX_CHAT_WIDTH, currentChatWidth + STEP);
+        if (elements.dashboardGrid) {
+            elements.dashboardGrid.style.gridTemplateColumns = `${currentChatWidth}px 1fr`;
+        }
+    });
+
     // Login modal
     elements.loginSubmitBtn?.addEventListener("click", submitLogin);
     elements.loginNameInput?.addEventListener("keydown", (e) => {
@@ -87,13 +114,19 @@ function attachEventListeners(): void {
 
         if (action === "active") {
             if (!isLeader()) {
-                alert("Solo el leader puede cambiar el video activo. Presiona 'Sync' para tomar el control.");
+                alert(
+                    "Solo el leader puede cambiar el video activo. Presiona 'Sync' para tomar el control.",
+                );
                 return;
             }
             state.socket.emit(
                 "setActiveVideo",
                 { videoId },
-                (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
+                (resp: {
+                    ok: boolean;
+                    error?: string;
+                    data?: { room?: any };
+                }) => {
                     if (!resp.ok) {
                         alert(resp.error ?? "setActiveVideo falló");
                         return;
@@ -107,7 +140,11 @@ function attachEventListeners(): void {
             state.socket.emit(
                 "playlistAdd",
                 { videoId, title: `Video ${videoId}`, durationSeconds: 0 },
-                (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
+                (resp: {
+                    ok: boolean;
+                    error?: string;
+                    data?: { room?: any };
+                }) => {
                     if (!resp.ok) {
                         alert(resp.error ?? "playlistAdd falló");
                         return;
@@ -119,8 +156,12 @@ function attachEventListeners(): void {
         }
     }
 
-    elements.queueNextButton?.addEventListener("click", () => handleQueueVideo("active"));
-    elements.queueLastButton?.addEventListener("click", () => handleQueueVideo("playlist"));
+    elements.queueNextButton?.addEventListener("click", () =>
+        handleQueueVideo("active"),
+    );
+    elements.queueLastButton?.addEventListener("click", () =>
+        handleQueueVideo("playlist"),
+    );
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -138,7 +179,7 @@ setConnectedLabel("Disconnected");
 updateSessionUI();
 
 // Show login modal on page load
-showLoginModal();
+// showLoginModal();
 
 // Initialize YT player container if present
 if (document.getElementById("yt-player")) {

@@ -21,4 +21,7 @@ export const elements = {
     loginPasswordInput: document.getElementById("login-password-input") as HTMLInputElement | null,
     loginSubmitBtn: document.getElementById("login-submit-btn") as HTMLButtonElement | null,
     loginErrorMsg: document.getElementById("login-error-msg") as HTMLElement | null,
+    dashboardGrid: document.querySelector<HTMLElement>(".dashboard-grid"),
+    playerExpandBtn: document.querySelector<HTMLElement>("[data-player-expand]"),
+    playerShrinkBtn: document.querySelector<HTMLElement>("[data-player-shrink]"),
 };
