@@ -9,6 +9,28 @@ let lastReportedTime = 0;
 let lastPlayerState: number | null = null;
 let currentControlsSetting = 0;
 
+// FIX (bug: "el leader no ve el video que él mismo agregó, hasta
+// recargar la página"): `new YT.Player(...)` asigna `ytPlayer` de
+// forma SÍNCRONA, pero el player no está realmente operativo hasta
+// que dispara `onReady` (asíncrono, tarda mientras el iframe de
+// YouTube inicializa). Si createPlayerAndApply se llama de nuevo en
+// esa ventana (ej. el leader agrega un video mientras el player
+// todavía se está inicializando), antes se tomaba la rama "reusar
+// player existente" -> applyPlaybackToPlayer, que llama métodos como
+// loadVideoById/getVideoData sobre un player que aún no responde de
+// forma confiable, fallando en silencio.
+//
+// Con este flag + variable, si createPlayerAndApply se llama antes de
+// que onReady haya disparado, en vez de intentar aplicar de inmediato
+// guardamos el pedido más reciente y lo aplicamos DENTRO de onReady
+// una vez el player esté realmente listo.
+let playerIsReady = false;
+let pendingApply: {
+    videoId: string | null;
+    time: number;
+    paused: boolean;
+} | null = null;
+
 export function ensureYouTubeApi(): Promise<void> {
     return new Promise((resolve) => {
         if ((window as any).YT && (window as any).YT.Player) {
@@ -34,7 +56,10 @@ export async function createPlayerAndApply(
     remotePaused: boolean,
 ): Promise<void> {
     const shouldHaveControls = isLeader() ? 1 : 0;
-    if (!ytPlayer || currentControlsSetting !== shouldHaveControls) {
+    const needsNewPlayer =
+        !ytPlayer || currentControlsSetting !== shouldHaveControls;
+
+    if (needsNewPlayer) {
         await ensureYouTubeApi();
         let container = document.getElementById("yt-player");
         if (!container) return;
@@ -57,6 +82,16 @@ export async function createPlayerAndApply(
         }
 
         currentControlsSetting = shouldHaveControls;
+        playerIsReady = false;
+        // Guardamos el pedido actual como pendiente -- si llegan más
+        // actualizaciones antes de que onReady dispare, se sobrescribe
+        // aquí mismo y onReady aplicará siempre la más reciente.
+        pendingApply = {
+            videoId: remoteVideoId,
+            time: remoteTime,
+            paused: remotePaused,
+        };
+
         ytPlayer = new (window as any).YT.Player(container, {
             height: "100%",
             width: "100%",
@@ -64,13 +99,23 @@ export async function createPlayerAndApply(
             events: {
                 onReady: () => {
                     ytReady = true;
-                    if (state.playback.videoId) {
-                        ytPlayer.cueVideoById(
-                            state.playback.videoId,
-                            state.playback.currentTime,
-                        );
-                        if (!state.playback.paused) ytPlayer.playVideo();
+                    playerIsReady = true;
+
+                    // Aplica el estado más reciente conocido, sea el que
+                    // teníamos al momento de crear el player o uno más
+                    // nuevo que haya llegado mientras se inicializaba.
+                    const toApply = pendingApply ?? {
+                        videoId: state.playback.videoId,
+                        time: state.playback.currentTime,
+                        paused: state.playback.paused,
+                    };
+                    pendingApply = null;
+
+                    if (toApply.videoId) {
+                        ytPlayer.cueVideoById(toApply.videoId, toApply.time);
+                        if (!toApply.paused) ytPlayer.playVideo();
                     }
+
                     // Iniciar el ping de sincronización (ver Problema 2)
                     startContinuousSync();
                 },
@@ -79,8 +124,17 @@ export async function createPlayerAndApply(
                 },
             },
         });
-    } else {
+    } else if (playerIsReady) {
         applyPlaybackToPlayer(remoteVideoId, remoteTime, remotePaused);
+    } else {
+        // El player existe pero onReady todavía no ha disparado --
+        // NO llamamos a sus métodos todavía (fallarían en silencio).
+        // Actualizamos el pedido pendiente; onReady lo aplicará.
+        pendingApply = {
+            videoId: remoteVideoId,
+            time: remoteTime,
+            paused: remotePaused,
+        };
     }
 }
 
