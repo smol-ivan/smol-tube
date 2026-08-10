@@ -200,10 +200,19 @@ function emitMediaUpdateFromPlayer(): void {
 
     if (!videoId) return;
 
+    // DEBUG TEMPORAL: confirmar que el leader realmente está emitiendo.
+    console.log("[DEBUG] emitMediaUpdateFromPlayer ->", {
+        videoId,
+        currentTime,
+        paused,
+    });
+
     state.socket.emit(
         "mediaUpdate",
         { videoId, currentTime, paused },
         (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
+            // DEBUG TEMPORAL: confirmar la respuesta del servidor.
+            console.log("[DEBUG] mediaUpdate ack ->", resp);
             if (!resp.ok) {
                 console.error("mediaUpdate failed:", resp.error);
                 return;
@@ -223,6 +232,16 @@ export function applyPlaybackToPlayer(
         if (!videoId) return;
 
         const currentVideoId = ytPlayer.getVideoData?.()?.video_id ?? null;
+
+        // DEBUG TEMPORAL: confirmar que esta función se llama y con qué datos.
+        console.log("[DEBUG] applyPlaybackToPlayer ->", {
+            currentVideoId,
+            incomingVideoId: videoId,
+            time,
+            paused,
+            currentTime: ytPlayer.getCurrentTime?.(),
+        });
+
         if (currentVideoId !== videoId) {
             ytPlayer.loadVideoById(videoId, time);
         } else {
@@ -245,9 +264,19 @@ export function startContinuousSync(): void {
     // Evitar múltiples intervalos si se destruye y recrea el player
     if (syncInterval) clearInterval(syncInterval);
 
+    // DEBUG TEMPORAL: confirmar que el intervalo arranca.
+    console.log("[DEBUG] startContinuousSync arrancado, isLeader:", isLeader());
+
     syncInterval = window.setInterval(() => {
         const YT = (window as any).YT;
         if (!YT || !ytPlayer || !ytReady) return;
+
+        // DEBUG TEMPORAL: ver el tick del intervalo cada 5s, sin filtrar.
+        console.log("[DEBUG] syncInterval tick ->", {
+            isLeader: isLeader(),
+            playerState: ytPlayer.getPlayerState?.(),
+            PLAYING: YT.PlayerState.PLAYING,
+        });
 
         // Solo emitimos el "ping" si somos el leader y el video se está reproduciendo
         if (

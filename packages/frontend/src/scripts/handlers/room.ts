@@ -15,6 +15,14 @@ export function setSuppressEmit(value: boolean): void {
 }
 
 export function applyRemoteRoom(room: any): void {
+    // DEBUG TEMPORAL: confirmar que este cliente recibe el roomState.
+    console.log("[DEBUG] applyRemoteRoom recibido ->", {
+        videoId: room.playback?.videoId,
+        currentTime: room.playback?.currentTime,
+        paused: room.playback?.paused,
+        leaderUserId: room.playback?.leaderUserId,
+    });
+
     suppressEmit = true;
     try {
         const incomingPlayback = room.playback ?? {};
@@ -45,7 +53,8 @@ export function applyRemoteRoom(room: any): void {
         if (elements.syncStatus) {
             if (isLeader()) {
                 elements.syncStatus.classList.add("bg-secondary/40");
-                elements.syncStatus.title = "Eres el leader — controlas la reproducción";
+                elements.syncStatus.title =
+                    "Eres el leader — controlas la reproducción";
             } else {
                 elements.syncStatus.classList.remove("bg-secondary/40");
                 elements.syncStatus.title = remoteLeader
