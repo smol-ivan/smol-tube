@@ -181,6 +181,14 @@ function handlePlayerStateChange(ev: any): void {
         stateCode === YT.PlayerState.PAUSED
     ) {
         emitMediaUpdateFromPlayer();
+    } else if (stateCode === YT.PlayerState.ENDED) {
+        state.socket.emit("transitionNext", {}, (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
+            if (!resp.ok) {
+                console.error("transitionNext failed:", resp.error);
+                return;
+            }
+            if (resp.data?.room) applyRemoteRoom(resp.data.room);
+        });
     }
 
     lastReportedTime = currentTime;
@@ -195,8 +203,9 @@ function emitMediaUpdateFromPlayer(): void {
         0,
         Math.floor(ytPlayer.getCurrentTime?.() ?? 0),
     );
-    const playerState = (window as any).YT?.PlayerState ?? {};
-    const paused = lastPlayerState !== (playerState?.PLAYING ?? 1);
+    const YT = (window as any).YT;
+    const currentCode = ytPlayer.getPlayerState?.();
+    const paused = currentCode !== YT?.PlayerState?.PLAYING;
 
     if (!videoId) return;
 
@@ -245,13 +254,35 @@ export function applyPlaybackToPlayer(
         if (currentVideoId !== videoId) {
             ytPlayer.loadVideoById(videoId, time);
         } else {
+            if (isLeader()) return; // El leader nunca ajusta su propio tiempo/estado
+
+            const YT = (window as any).YT;
+            const stateCode = ytPlayer.getPlayerState?.();
             const currentTime = ytPlayer.getCurrentTime?.() ?? 0;
-            if (Math.abs(currentTime - time) > 1) ytPlayer.seekTo(time, true);
-            if (paused) {
-                ytPlayer.pauseVideo();
-            } else {
-                ytPlayer.playVideo();
+
+            const wantsPaused = paused;
+            const isCurrentlyPlaying = stateCode === YT.PlayerState.PLAYING;
+            const stateChanged = wantsPaused === isCurrentlyPlaying; // quiere pausado pero jugando, o viceversa
+
+            // Threshold alto para drift puro durante reproducción normal.
+            // Los heartbeats del leader llegan con el tiempo que tenía él en ese momento,
+            // por eso el listener siempre parece "adelantado" en comparación — eso es normal.
+            // Solo corregimos si el drift es verdaderamente grande (dessync real),
+            // o si hubo un cambio de estado (play/pause/seek del leader).
+            const DRIFT_THRESHOLD_SECONDS = 15;
+            const drift = Math.abs(currentTime - time);
+            const needsSeek = drift > DRIFT_THRESHOLD_SECONDS;
+
+            if (stateChanged) {
+                // Cambio real de play/pause — ajustar estado y tiempo solo si hay drift visible
+                if (drift > 2) ytPlayer.seekTo(time, true);
+                if (wantsPaused) ytPlayer.pauseVideo();
+                else ytPlayer.playVideo();
+            } else if (needsSeek) {
+                // Dessync real (> 15s de diferencia) — corregir silenciosamente
+                ytPlayer.seekTo(time, true);
             }
+            // Si no hay cambio de estado y drift < 15s → no tocar al listener
         }
     } catch (e) {
         console.error("applyPlaybackToPlayer error", e);

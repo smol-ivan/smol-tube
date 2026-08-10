@@ -36,14 +36,22 @@ export function applyRemoteRoom(room: any): void {
         state.playback.paused = remotePaused;
         state.playback.leaderUserId = remoteLeader;
 
-        // Update playlist
+        // Update playlist, history, skipVotes
         state.playlist = room.playlist ?? [];
+        state.history = room.history ?? [];
+        state.skipVotes = room.skipVotes ?? [];
         renderPlaylist();
 
-        // Update current title
+        // Update current title — busca el título en la playlist si existe
         if (elements.currentTitle) {
             if (remoteVideoId) {
-                elements.currentTitle.textContent = `youtube.com/watch?v=${remoteVideoId}`;
+                const activeItem = state.playlist.find(
+                    (item) => item.videoId === remoteVideoId,
+                );
+                elements.currentTitle.textContent =
+                    activeItem?.title && activeItem.title !== remoteVideoId
+                        ? activeItem.title
+                        : `youtube.com/watch?v=${remoteVideoId}`;
             } else {
                 elements.currentTitle.textContent = "Sin video";
             }

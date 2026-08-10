@@ -1,12 +1,16 @@
 import express, { Request, Response } from "express";
 import http from "node:http";
+import * as path from "node:path";
 import { Server } from "socket.io";
+import { config as loadEnv } from "dotenv";
 import { ensureMainRoom, seedMockAccounts, DEFAULT_ROOM_ID } from "./seed";
 import { handleConnectionEvents } from "./handlers/connection";
 import { handleMediaEvents } from "./handlers/media";
 import { handleChatEvents } from "./handlers/chat";
 import { handleModerationEvents } from "./handlers/moderation";
 import { handlePlaylistEvents } from "./handlers/playlist";
+
+loadEnv({ path: path.resolve(__dirname, "../../../.env"), quiet: true });
 
 const DEFAULT_PORT = 3000;
 

@@ -19,6 +19,7 @@ export interface PlaylistItem {
     itemId: string; // id propio del item en la cola (no el videoId)
     videoId: string;
     title: string;
+    thumbnailUrl?: string; // miniatura obtenida desde YouTube Data API (o construida desde videoId)
     addedByUserId: string;
     durationSeconds: number;
 }
@@ -40,6 +41,10 @@ export interface Room {
 
     playlist: PlaylistItem[];
 
+    history: PlaylistItem[];
+
+    skipVotes: string[];
+
     bans: BanEntry[];
 
     // TTL de producción (ver nota en user.ts). En desarrollo local se
@@ -60,6 +65,8 @@ export function createEmptyRoom(
             leaderUserId: null,
         },
         playlist: [],
+        history: [],
+        skipVotes: [],
         bans: [],
         expiresAt,
     };

@@ -77,7 +77,23 @@ export function handleMediaEvents(io: Server, socket: Socket) {
             }
 
             await roomRepository.saveRoom(updatedRoom);
-            io.to(context.room.roomId).emit("roomState", { room: updatedRoom });
+
+            // Si solo cambió la posición en el tiempo (heartbeat del leader durante reproducción
+            // normal) no tiene sentido forzar a todos los listeners a re-sincronizar — ellos
+            // ya están corriendo el video en paralelo. Solo hacemos broadcast cuando hay un
+            // cambio de estado real: play/pause, cambio de video, o seek manual significativo.
+            const prevPlayback = context.room.playback;
+            const isStateChange =
+                prevPlayback.paused !== payload.paused ||
+                prevPlayback.videoId !== payload.videoId;
+            const isManualSeek =
+                !isStateChange &&
+                Math.abs(prevPlayback.currentTime - payload.currentTime) > 15;
+
+            if (isStateChange || isManualSeek) {
+                io.to(context.room.roomId).emit("roomState", { room: updatedRoom });
+            }
+            // En heartbeat puro: solo respondemos al leader, los listeners no se tocan.
             ok(ack, { room: updatedRoom });
         },
     );

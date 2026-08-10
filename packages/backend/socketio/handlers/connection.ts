@@ -25,16 +25,17 @@ export function handleConnectionEvents(io: Server, socket: Socket) {
                 return;
             }
 
+            const providedPassword = payload.password?.trim() ?? "";
             let user = await userRepository.getUserByDisplayName(displayName);
             if (user) {
-                if (user.passwordHash && !payload.password) {
+                if (user.passwordHash && !providedPassword) {
                     fail(ack, "password is required for this account");
                     return;
                 }
                 if (
                     user.passwordHash &&
                     !compareMockPassword(
-                        payload.password ?? "",
+                        providedPassword,
                         user.passwordHash,
                     )
                 ) {
@@ -42,6 +43,10 @@ export function handleConnectionEvents(io: Server, socket: Socket) {
                     return;
                 }
             } else {
+                if (providedPassword) {
+                    fail(ack, "invalid credentials");
+                    return;
+                }
                 user = createGuestUser(
                     userIdFromGuestName(displayName),
                     displayName,

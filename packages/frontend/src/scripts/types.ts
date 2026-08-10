@@ -9,6 +9,7 @@ export type PlaylistItem = {
     itemId: string;
     videoId: string;
     title: string;
+    thumbnailUrl?: string;
     addedByUserId: string;
     durationSeconds: number;
 };

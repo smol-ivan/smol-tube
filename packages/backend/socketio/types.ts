@@ -35,8 +35,7 @@ export interface SeedUserConfig {
 
 export interface PlaylistAddPayload {
     videoId: string;
-    title: string;
-    durationSeconds: number;
+    atTop?: boolean;
 }
 
 export interface PlaylistRemovePayload {
@@ -47,3 +46,10 @@ export interface PlaylistReorderPayload {
     fromIndex: number;
     toIndex: number;
 }
+
+export interface PlaylistPlayPayload {
+    itemId: string;
+}
+
+export interface SkipVotePayload {}
+export interface TransitionNextPayload {}

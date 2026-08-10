@@ -12,6 +12,8 @@ export const state = {
     users: [] as ConnectedUser[],
     chat: [] as ChatMsg[],
     playlist: [] as PlaylistItem[],
+    history: [] as PlaylistItem[],
+    skipVotes: [] as string[],
     playback: {
         videoId: null as string | null,
         currentTime: 0,

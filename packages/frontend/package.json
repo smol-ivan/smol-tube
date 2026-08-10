@@ -18,7 +18,9 @@
         "tailwindcss": "^4.3.3"
     },
     "devDependencies": {
+        "@astrojs/check": "^0.9.10",
         "@fsouza/prettierd": "^0.28.0",
-        "prettier-plugin-astro": "^0.14.1"
+        "prettier-plugin-astro": "^0.14.1",
+        "typescript": "^7.0.2"
     }
 }

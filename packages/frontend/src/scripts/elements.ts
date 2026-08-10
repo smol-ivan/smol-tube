@@ -16,6 +16,8 @@ export const elements = {
     playlistItems: document.querySelector<HTMLElement>("[data-playlist-items]"),
     playlistCount: document.querySelector<HTMLElement>("[data-playlist-count]"),
     playlistDuration: document.querySelector<HTMLElement>("[data-playlist-duration]"),
+    playlistHistory: document.getElementById("playlist-history"),
+    playlistHistoryItems: document.querySelector<HTMLElement>("[data-playlist-history-items]"),
     loginModal: document.querySelector<HTMLElement>("[data-login-modal]"),
     loginNameInput: document.getElementById("login-name-input") as HTMLInputElement | null,
     loginPasswordInput: document.getElementById("login-password-input") as HTMLInputElement | null,
@@ -24,4 +26,5 @@ export const elements = {
     dashboardGrid: document.querySelector<HTMLElement>(".dashboard-grid"),
     playerExpandBtn: document.querySelector<HTMLElement>("[data-player-expand]"),
     playerShrinkBtn: document.querySelector<HTMLElement>("[data-player-shrink]"),
+    voteSkipBtn: document.querySelector<HTMLButtonElement>("[data-vote-skip]"),
 };

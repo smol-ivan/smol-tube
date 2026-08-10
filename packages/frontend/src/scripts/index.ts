@@ -43,9 +43,9 @@ function doLogout(): void {
 function attachEventListeners(): void {
     // Manipulate css of media player
     let currentChatWidth = 280;
-    const STEP = 40;
-    const MIN_CHAT_WIDTH = 150;
-    const MAX_CHAT_WIDTH = 450;
+    const STEP = 100;
+    const MIN_CHAT_WIDTH = 320;
+    const MAX_CHAT_WIDTH = 920;
 
     elements.playerExpandBtn?.addEventListener("click", () => {
         // Para que el reproductor crezca, el chat debe encogerse
@@ -104,7 +104,7 @@ function attachEventListeners(): void {
     });
 
     // Queue handlers
-    function handleQueueVideo(action: "active" | "playlist"): void {
+    function handleQueueVideo(action: "next" | "last"): void {
         const raw = elements.mediaInput?.value.trim() ?? "";
         const videoId = parseYouTubeId(raw);
         if (!videoId) {
@@ -112,56 +112,42 @@ function attachEventListeners(): void {
             return;
         }
 
-        if (action === "active") {
-            if (!isLeader()) {
-                alert(
-                    "Solo el leader puede cambiar el video activo. Presiona 'Sync' para tomar el control.",
-                );
-                return;
-            }
-            state.socket.emit(
-                "setActiveVideo",
-                { videoId },
-                (resp: {
-                    ok: boolean;
-                    error?: string;
-                    data?: { room?: any };
-                }) => {
-                    if (!resp.ok) {
-                        alert(resp.error ?? "setActiveVideo falló");
-                        return;
-                    }
-                    if (resp.data?.room) applyRemoteRoom(resp.data.room);
-                    if (elements.mediaInput) elements.mediaInput.value = "";
-                },
-            );
-        } else {
-            // playlistAdd
-            state.socket.emit(
-                "playlistAdd",
-                { videoId, title: `Video ${videoId}`, durationSeconds: 0 },
-                (resp: {
-                    ok: boolean;
-                    error?: string;
-                    data?: { room?: any };
-                }) => {
-                    if (!resp.ok) {
-                        alert(resp.error ?? "playlistAdd falló");
-                        return;
-                    }
-                    if (resp.data?.room) applyRemoteRoom(resp.data.room);
-                    if (elements.mediaInput) elements.mediaInput.value = "";
-                },
-            );
-        }
+        const atTop = action === "next";
+
+        state.socket.emit(
+            "playlistAdd",
+            { videoId, atTop },
+            (resp: {
+                ok: boolean;
+                error?: string;
+                data?: { room?: any };
+            }) => {
+                if (!resp.ok) {
+                    alert(resp.error ?? "playlistAdd falló");
+                    return;
+                }
+                if (resp.data?.room) applyRemoteRoom(resp.data.room);
+                if (elements.mediaInput) elements.mediaInput.value = "";
+            },
+        );
     }
 
     elements.queueNextButton?.addEventListener("click", () =>
-        handleQueueVideo("active"),
+        handleQueueVideo("next"),
     );
     elements.queueLastButton?.addEventListener("click", () =>
-        handleQueueVideo("playlist"),
+        handleQueueVideo("last"),
     );
+
+    elements.voteSkipBtn?.addEventListener("click", () => {
+        state.socket.emit("skipVote", {}, (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
+            if (!resp.ok) {
+                alert(resp.error ?? "skipVote falló");
+                return;
+            }
+            if (resp.data?.room) applyRemoteRoom(resp.data.room);
+        });
+    });
 }
 
 // ──────────────────────────────────────────────────────────────

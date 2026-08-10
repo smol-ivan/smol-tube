@@ -193,13 +193,14 @@ export function applyChatMessage(
 export interface ApplyPlaylistAddRequest {
     requestingUser: User;
     addedVideo: PlaylistItem;
+    atTop?: boolean;
 }
 
 export function applyPlaylistAdd(
     room: Room,
     request: ApplyPlaylistAddRequest,
 ): Room | null {
-    const { requestingUser, addedVideo } = request;
+    const { requestingUser, addedVideo, atTop } = request;
 
     if (!hasPermission(requestingUser, "playlist:add")) {
         return null;
@@ -208,9 +209,22 @@ export function applyPlaylistAdd(
     const updatedRoom: Room = {
         ...room,
         playlist: [...room.playlist],
+        playback: { ...room.playback },
     };
 
-    updatedRoom.playlist.push(addedVideo);
+    if (atTop && updatedRoom.playlist.length > 0) {
+        // Insert right after the currently playing video (index 1)
+        updatedRoom.playlist.splice(1, 0, addedVideo);
+    } else {
+        // Queue last
+        updatedRoom.playlist.push(addedVideo);
+    }
+
+    if (!updatedRoom.playback.videoId) {
+        updatedRoom.playback.videoId = addedVideo.videoId;
+        updatedRoom.playback.currentTime = 0;
+        updatedRoom.playback.paused = false;
+    }
 
     return updatedRoom;
 }
@@ -237,14 +251,13 @@ export function applyPlaylistRemove(
 
     const idxRemovedVideo = updatedRoom.playlist.findIndex(
         (item) => item.itemId === removedVideo.itemId,
-    )
+    );
 
     if (idxRemovedVideo < 0) {
         return null;
     }
 
-    updatedRoom.playlist.splice(idxRemovedVideo, 1)
-
+    updatedRoom.playlist.splice(idxRemovedVideo, 1);
 
     return updatedRoom;
 }
@@ -286,3 +299,36 @@ export function applyPlaylistReorder(
         playlist: updatedPlaylist,
     };
 }
+
+// export interface applyTransitionToNextRequest {
+//     currentVideo: PlaylistItem | null;
+//     nextVideo: PlaylistItem | null;
+//     remainingPlaylist: PlaylistItem[];
+// }
+//
+//
+// export function applyTransitionToNext(
+//     room: Room,
+//     request: applyTransitionToNextRequest,
+// ): Room | null {
+//     const { currentVideo,nextVideo, remainingPlaylist } = request;
+//
+//     const updatedHistory = [...room.history];
+//
+//     if (currentVideo) {
+//         updatedHistory.push(currentVideo)
+//     }
+//
+//     if (updatedHistory.length > 3) {
+//         updatedHistory.shift()
+//     }
+//
+//     return {
+//         ...room,
+//         history: updatedHistory,
+//         skipVotes: [],
+//         // TODO: Revisar como regresar el nuevo video actual,
+//         // y si es necesario tener un atributo currentVideo: PlaylistItem, 
+//         // ya que tenemos 
+//     }
+// }

@@ -101,6 +101,16 @@ const { currentTitle = "Sin video" } = Astro.props;
                         >skip_next</span
                     >
                 </button>
+                <button
+                    data-vote-skip
+                    class="bg-surface-variant border border-outline-variant px-3 py-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface font-label-md text-label-md flex items-center gap-1"
+                    title="Vote to skip current video"
+                >
+                    <span class="material-symbols-outlined text-[18px]"
+                        >forward</span
+                    >
+                    Vote Skip (<span id="skip-votes-count">0</span>)
+                </button>
             </div>
         </div>
 
