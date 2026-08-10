@@ -28,11 +28,15 @@ export function ensureYouTubeApi(): Promise<void> {
     });
 }
 
-export async function createPlayerAndApply(remoteVideoId: string | null, remoteTime: number, remotePaused: boolean): Promise<void> {
+export async function createPlayerAndApply(
+    remoteVideoId: string | null,
+    remoteTime: number,
+    remotePaused: boolean,
+): Promise<void> {
     const shouldHaveControls = isLeader() ? 1 : 0;
     if (!ytPlayer || currentControlsSetting !== shouldHaveControls) {
         await ensureYouTubeApi();
-        const container = document.getElementById("yt-player");
+        let container = document.getElementById("yt-player");
         if (!container) return;
 
         if (ytPlayer && typeof ytPlayer.destroy === "function") {
@@ -42,10 +46,17 @@ export async function createPlayerAndApply(remoteVideoId: string | null, remoteT
                 console.warn("failed to destroy old player", e);
             }
             ytPlayer = null;
+
+            // NUEVO: Recrear el div limpio para evitar la pantalla negra
+            const parent = container.parentElement;
+            if (parent) {
+                parent.innerHTML =
+                    '<div id="yt-player" class="absolute inset-0 w-full h-full"></div>';
+                container = document.getElementById("yt-player"); // Refrescar la referencia
+            }
         }
 
         currentControlsSetting = shouldHaveControls;
-
         ytPlayer = new (window as any).YT.Player(container, {
             height: "100%",
             width: "100%",
@@ -54,16 +65,20 @@ export async function createPlayerAndApply(remoteVideoId: string | null, remoteT
                 onReady: () => {
                     ytReady = true;
                     if (state.playback.videoId) {
-                        ytPlayer.cueVideoById(state.playback.videoId, state.playback.currentTime);
+                        ytPlayer.cueVideoById(
+                            state.playback.videoId,
+                            state.playback.currentTime,
+                        );
                         if (!state.playback.paused) ytPlayer.playVideo();
                     }
+                    // Iniciar el ping de sincronización (ver Problema 2)
+                    startContinuousSync();
                 },
                 onStateChange: (ev: any) => {
                     handlePlayerStateChange(ev);
                 },
             },
         });
-        // We defer apply until ready
     } else {
         applyPlaybackToPlayer(remoteVideoId, remoteTime, remotePaused);
     }
@@ -87,7 +102,10 @@ function handlePlayerStateChange(ev: any): void {
         return;
     }
 
-    if (stateCode === YT.PlayerState.PLAYING || stateCode === YT.PlayerState.PAUSED) {
+    if (
+        stateCode === YT.PlayerState.PLAYING ||
+        stateCode === YT.PlayerState.PAUSED
+    ) {
         emitMediaUpdateFromPlayer();
     }
 
@@ -99,7 +117,10 @@ function emitMediaUpdateFromPlayer(): void {
     if (!ytPlayer || !isLeader()) return;
     const videoData = ytPlayer.getVideoData?.() ?? {};
     const videoId = videoData.video_id ?? state.playback.videoId ?? null;
-    const currentTime = Math.max(0, Math.floor(ytPlayer.getCurrentTime?.() ?? 0));
+    const currentTime = Math.max(
+        0,
+        Math.floor(ytPlayer.getCurrentTime?.() ?? 0),
+    );
     const playerState = (window as any).YT?.PlayerState ?? {};
     const paused = lastPlayerState !== (playerState?.PLAYING ?? 1);
 
@@ -118,7 +139,11 @@ function emitMediaUpdateFromPlayer(): void {
     );
 }
 
-export function applyPlaybackToPlayer(videoId: string | null, time: number, paused: boolean): void {
+export function applyPlaybackToPlayer(
+    videoId: string | null,
+    time: number,
+    paused: boolean,
+): void {
     if (!ytPlayer) return;
     try {
         if (!videoId) return;
@@ -138,4 +163,24 @@ export function applyPlaybackToPlayer(videoId: string | null, time: number, paus
     } catch (e) {
         console.error("applyPlaybackToPlayer error", e);
     }
+}
+
+let syncInterval: number | null = null;
+
+export function startContinuousSync(): void {
+    // Evitar múltiples intervalos si se destruye y recrea el player
+    if (syncInterval) clearInterval(syncInterval);
+
+    syncInterval = window.setInterval(() => {
+        const YT = (window as any).YT;
+        if (!YT || !ytPlayer || !ytReady) return;
+
+        // Solo emitimos el "ping" si somos el leader y el video se está reproduciendo
+        if (
+            isLeader() &&
+            ytPlayer.getPlayerState?.() === YT.PlayerState.PLAYING
+        ) {
+            emitMediaUpdateFromPlayer();
+        }
+    }, 5000); // Emite el estado cada 5 segundos
 }
