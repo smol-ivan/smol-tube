@@ -61,8 +61,29 @@ export async function createPlayerAndApply(
 
     if (needsNewPlayer) {
         await ensureYouTubeApi();
-        let container = document.getElementById("yt-player");
-        if (!container) return;
+
+        // FIX (bug: "pantalla negra al convertirte en leader"):
+        // YT.Player(elementOrId, ...) NO usa el elemento como
+        // contenedor -- lo REEMPLAZA por el <iframe> (así lo dice la
+        // documentación oficial: "The IFrame API will replace the
+        // specified element with the <iframe> element"). Y
+        // player.destroy() elimina ese iframe del DOM por completo.
+        //
+        // El código anterior guardaba `container` como el
+        // <div id="yt-player"> original y trataba de usar su
+        // `.parentElement` DESPUÉS de destruir el player -- pero ese
+        // div original ya no estaba en el DOM desde la primera vez
+        // que se creó un player (fue reemplazado por el iframe), así
+        // que `container` era una referencia obsoleta/desconectada,
+        // y la recreación fallaba en silencio.
+        //
+        // Solución: usamos un ANCLA estable (el <div> con el id fijo,
+        // que nunca se le pasa directo a YT.Player) y montamos dentro
+        // de ella un HIJO desechable nuevo en cada recreación. El
+        // ancla nunca es tocada por YouTube, así que siempre podemos
+        // ubicarla de forma confiable con getElementById.
+        const anchor = document.getElementById("yt-player");
+        if (!anchor) return;
 
         if (ytPlayer && typeof ytPlayer.destroy === "function") {
             try {
@@ -71,15 +92,14 @@ export async function createPlayerAndApply(
                 console.warn("failed to destroy old player", e);
             }
             ytPlayer = null;
-
-            // NUEVO: Recrear el div limpio para evitar la pantalla negra
-            const parent = container.parentElement;
-            if (parent) {
-                parent.innerHTML =
-                    '<div id="yt-player" class="absolute inset-0 w-full h-full"></div>';
-                container = document.getElementById("yt-player"); // Refrescar la referencia
-            }
         }
+
+        // Limpiamos el ancla y creamos un hijo desechable fresco --
+        // este es el nodo que YT.Player reemplazará por el iframe.
+        anchor.innerHTML = "";
+        const mountPoint = document.createElement("div");
+        mountPoint.className = "absolute inset-0 w-full h-full";
+        anchor.appendChild(mountPoint);
 
         currentControlsSetting = shouldHaveControls;
         playerIsReady = false;
@@ -92,7 +112,7 @@ export async function createPlayerAndApply(
             paused: remotePaused,
         };
 
-        ytPlayer = new (window as any).YT.Player(container, {
+        ytPlayer = new (window as any).YT.Player(mountPoint, {
             height: "100%",
             width: "100%",
             playerVars: { controls: shouldHaveControls, rel: 0 },
