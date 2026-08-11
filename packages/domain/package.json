@@ -5,6 +5,7 @@
     "main": "index.ts",
     "types": "index.ts",
     "scripts": {
+        "clean": "rimraf node_modules dist *.tsbuildinfo",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
         "format:check": "prettier --check .",

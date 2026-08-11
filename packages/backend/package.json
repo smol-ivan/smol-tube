@@ -2,6 +2,7 @@
     "name": "@smol-tube/backend",
     "version": "1.0.0",
     "scripts": {
+        "clean": "rimraf node_modules dist *.tsbuildinfo",
         "dev": "tsx socketio/server.ts",
         "dev:socket": "tsx socketio/server.ts",
         "start:socket": "tsx socketio/server.ts",
