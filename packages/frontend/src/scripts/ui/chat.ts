@@ -36,13 +36,18 @@ import { setConnectedLabel } from "./topbar";
 export function sendChatMessage(): void {
     const text = elements.chatInput?.value.trim();
     if (!text || !state.currentUserId) {
-        if (!state.currentUserId) setConnectedLabel("Desconectado — inicia sesión");
+        if (!state.currentUserId)
+            setConnectedLabel("Desconectado — inicia sesión");
         return;
     }
-    state.socket.emit("chatMsg", { text }, (resp: { ok: boolean; error?: string }) => {
-        if (!resp.ok) {
-            console.error("chatMsg failed:", resp.error);
-        }
-    });
+    state.socket.emit(
+        "chatMsg",
+        { text },
+        (resp: { ok: boolean; error?: string }) => {
+            if (!resp.ok) {
+                console.error("chatMsg failed:", resp.error);
+            }
+        },
+    );
     if (elements.chatInput) elements.chatInput.value = "";
 }

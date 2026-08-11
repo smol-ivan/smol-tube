@@ -6,7 +6,7 @@
 //
 // Esta entidad NO sabe nada de Socket.IO, DynamoDB, ni Lambda. Es pura.
 
-export type Role = 'guest' | 'moderator' | 'admin';
+export type Role = "guest" | "moderator" | "admin";
 
 // Jerarquía simple: cada rol superior incluye implícitamente los
 // permisos del anterior, pero preferimos listar permisos explícitos
@@ -14,46 +14,43 @@ export type Role = 'guest' | 'moderator' | 'admin';
 // Es más verboso, pero más fácil de auditar y de testear: ves de un
 // vistazo qué puede hacer cada rol sin tener que razonar jerarquías.
 export type Permission =
-    | 'chat:send'
-    | 'playback:control'      // play, pausa, seek (si eres el leader)
-    | 'playback:becomeLeader' // tomar el control de reproducción
-    | 'playlist:add'
-    | 'playlist:remove'
-    | 'playlist:reorder'
-    | 'moderation:kick'
-    | 'moderation:ban'
-    | 'moderation:unban'
-    | 'roles:grantModerator'
-    | 'roles:revokeModerator';
+    | "chat:send"
+    | "playback:control" // play, pausa, seek (si eres el leader)
+    | "playback:becomeLeader" // tomar el control de reproducción
+    | "playlist:add"
+    | "playlist:remove"
+    | "playlist:reorder"
+    | "moderation:kick"
+    | "moderation:ban"
+    | "moderation:unban"
+    | "roles:grantModerator"
+    | "roles:revokeModerator";
 
 const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
-    guest: [
-        'chat:send',
-        'playback:becomeLeader',
-    ],
+    guest: ["chat:send", "playback:becomeLeader"],
     moderator: [
-        'chat:send',
-        'playback:control',
-        'playback:becomeLeader',
-        'playlist:add',
-        'playlist:remove',
-        'playlist:reorder',
-        'moderation:kick',
-        'moderation:ban',
-        'moderation:unban',
+        "chat:send",
+        "playback:control",
+        "playback:becomeLeader",
+        "playlist:add",
+        "playlist:remove",
+        "playlist:reorder",
+        "moderation:kick",
+        "moderation:ban",
+        "moderation:unban",
     ],
     admin: [
-        'chat:send',
-        'playback:control',
-        'playback:becomeLeader',
-        'playlist:add',
-        'playlist:remove',
-        'playlist:reorder',
-        'moderation:kick',
-        'moderation:ban',
-        'moderation:unban',
-        'roles:grantModerator',
-        'roles:revokeModerator',
+        "chat:send",
+        "playback:control",
+        "playback:becomeLeader",
+        "playlist:add",
+        "playlist:remove",
+        "playlist:reorder",
+        "moderation:kick",
+        "moderation:ban",
+        "moderation:unban",
+        "roles:grantModerator",
+        "roles:revokeModerator",
     ],
 };
 
@@ -82,11 +79,15 @@ export function hasPermission(user: User, permission: Permission): boolean {
     return ROLE_PERMISSIONS[user.role].includes(permission);
 }
 
-export function createGuestUser(userId: string, displayName: string, expiresAt: number | null): User {
+export function createGuestUser(
+    userId: string,
+    displayName: string,
+    expiresAt: number | null,
+): User {
     return {
         userId,
         displayName,
-        role: 'guest',
+        role: "guest",
         passwordHash: null,
         expiresAt,
     };

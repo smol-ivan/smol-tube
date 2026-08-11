@@ -26,11 +26,18 @@ export function setupSocketListeners(): void {
 
     state.socket.on(
         "presenceChanged",
-        (payload: { userId: string; displayName?: string | null; connected: boolean }) => {
+        (payload: {
+            userId: string;
+            displayName?: string | null;
+            connected: boolean;
+        }) => {
             const { userId, displayName, connected } = payload;
             if (connected) {
                 if (!state.users.find((u) => u.userId === userId)) {
-                    state.users.push({ userId, displayName: displayName ?? userId });
+                    state.users.push({
+                        userId,
+                        displayName: displayName ?? userId,
+                    });
                     renderUsers();
                 }
             } else {
@@ -50,18 +57,21 @@ export function setupSocketListeners(): void {
         renderChat();
     });
 
-    state.socket.on("userRoleUpdated", (payload: { userId: string; role: string }) => {
-        // Update role in local users list
-        const user = state.users.find((u) => u.userId === payload.userId);
-        if (user) {
-            user.role = payload.role;
-            renderUsers();
-        }
-        // Update our own role if it's us
-        if (payload.userId === state.currentUserId) {
-            state.currentRole = payload.role;
-            updateSessionUI();
-        }
-        console.debug("userRoleUpdated", payload);
-    });
+    state.socket.on(
+        "userRoleUpdated",
+        (payload: { userId: string; role: string }) => {
+            // Update role in local users list
+            const user = state.users.find((u) => u.userId === payload.userId);
+            if (user) {
+                user.role = payload.role;
+                renderUsers();
+            }
+            // Update our own role if it's us
+            if (payload.userId === state.currentUserId) {
+                state.currentRole = payload.role;
+                updateSessionUI();
+            }
+            console.debug("userRoleUpdated", payload);
+        },
+    );
 }

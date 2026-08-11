@@ -182,13 +182,17 @@ function handlePlayerStateChange(ev: any): void {
     ) {
         emitMediaUpdateFromPlayer();
     } else if (stateCode === YT.PlayerState.ENDED) {
-        state.socket.emit("transitionNext", {}, (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
-            if (!resp.ok) {
-                console.error("transitionNext failed:", resp.error);
-                return;
-            }
-            if (resp.data?.room) applyRemoteRoom(resp.data.room);
-        });
+        state.socket.emit(
+            "transitionNext",
+            {},
+            (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
+                if (!resp.ok) {
+                    console.error("transitionNext failed:", resp.error);
+                    return;
+                }
+                if (resp.data?.room) applyRemoteRoom(resp.data.room);
+            },
+        );
     }
 
     lastReportedTime = currentTime;

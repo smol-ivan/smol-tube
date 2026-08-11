@@ -16,13 +16,17 @@ export class InMemoryConnectionRepository implements ConnectionRepository {
 
         return [...connectionIds]
             .map((connectionId) => this.connectionsById.get(connectionId))
-            .filter((connection): connection is Connection => Boolean(connection));
+            .filter((connection): connection is Connection =>
+                Boolean(connection),
+            );
     }
 
     async saveConnection(connection: Connection): Promise<void> {
         const existing = this.connectionsById.get(connection.connectionId);
         if (existing && existing.roomId !== connection.roomId) {
-            const existingRoomSet = this.connectionIdsByRoom.get(existing.roomId);
+            const existingRoomSet = this.connectionIdsByRoom.get(
+                existing.roomId,
+            );
             existingRoomSet?.delete(existing.connectionId);
             if (existingRoomSet && existingRoomSet.size === 0) {
                 this.connectionIdsByRoom.delete(existing.roomId);

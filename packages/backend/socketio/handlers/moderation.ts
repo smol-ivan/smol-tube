@@ -1,5 +1,14 @@
 import { Server, Socket } from "socket.io";
-import { Room, User, applyKick, applyBan, applyUnban, applyGrantModerator, applyRevokeModerator, BanEntry } from "@smol-tube/domain";
+import {
+    Room,
+    User,
+    applyKick,
+    applyBan,
+    applyUnban,
+    applyGrantModerator,
+    applyRevokeModerator,
+    BanEntry,
+} from "@smol-tube/domain";
 import { AckFn, TargetUserPayload } from "../types";
 import { getConnectedContext, fail, ok } from "../utils";
 import { roomRepository, userRepository, connectionRepository } from "../state";

@@ -1,7 +1,10 @@
 import { state } from "./state";
 
 export function isLeader(): boolean {
-    return !!(state.playback.leaderUserId && state.currentUserId === state.playback.leaderUserId);
+    return !!(
+        state.playback.leaderUserId &&
+        state.currentUserId === state.playback.leaderUserId
+    );
 }
 
 export function formatDuration(seconds: number): string {
@@ -26,7 +29,8 @@ export function parseYouTubeId(input: string): string | null {
             if (v) return v;
             const parts = u.pathname.split("/").filter(Boolean);
             const embedIndex = parts.indexOf("embed");
-            if (embedIndex >= 0 && parts.length > embedIndex + 1) return parts[embedIndex + 1];
+            if (embedIndex >= 0 && parts.length > embedIndex + 1)
+                return parts[embedIndex + 1];
         }
         if (u.hostname === "youtu.be") {
             const parts = u.pathname.split("/").filter(Boolean);

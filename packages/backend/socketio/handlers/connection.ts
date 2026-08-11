@@ -1,7 +1,13 @@
 import { Server, Socket } from "socket.io";
 import { Room, User, createGuestUser, isBanned } from "@smol-tube/domain";
 import { JoinRoomPayload, AckFn } from "../types";
-import { normalizeDisplayName, compareMockPassword, userIdFromGuestName, fail, ok } from "../utils";
+import {
+    normalizeDisplayName,
+    compareMockPassword,
+    userIdFromGuestName,
+    fail,
+    ok,
+} from "../utils";
 import { roomRepository, userRepository, connectionRepository } from "../state";
 import { DEFAULT_ROOM_ID, EPOCH_TTL_DISABLED } from "../seed";
 
@@ -10,7 +16,15 @@ export function handleConnectionEvents(io: Server, socket: Socket) {
         "joinRoom",
         async (
             payload: JoinRoomPayload,
-            ack?: AckFn<{ room: Room; user: User; connectedUsers: Array<{ userId: string; displayName: string; role: string }> }>,
+            ack?: AckFn<{
+                room: Room;
+                user: User;
+                connectedUsers: Array<{
+                    userId: string;
+                    displayName: string;
+                    role: string;
+                }>;
+            }>,
         ) => {
             const displayName = normalizeDisplayName(payload.displayName ?? "");
             if (!displayName) {
@@ -34,10 +48,7 @@ export function handleConnectionEvents(io: Server, socket: Socket) {
                 }
                 if (
                     user.passwordHash &&
-                    !compareMockPassword(
-                        providedPassword,
-                        user.passwordHash,
-                    )
+                    !compareMockPassword(providedPassword, user.passwordHash)
                 ) {
                     fail(ack, "invalid credentials");
                     return;
@@ -85,17 +96,25 @@ export function handleConnectionEvents(io: Server, socket: Socket) {
             });
 
             // Build connectedUsers list (includes the user that just joined)
-            const allConnections = await connectionRepository.listConnectionsInRoom(roomId);
+            const allConnections =
+                await connectionRepository.listConnectionsInRoom(roomId);
             const connectedUsersList = await Promise.all(
                 allConnections.map(async (conn) => {
                     const u = await userRepository.getUserById(conn.userId);
                     return u
-                        ? { userId: u.userId, displayName: u.displayName, role: u.role as string }
+                        ? {
+                              userId: u.userId,
+                              displayName: u.displayName,
+                              role: u.role as string,
+                          }
                         : null;
                 }),
             );
             const connectedUsers = connectedUsersList.filter(
-                (u): u is { userId: string; displayName: string; role: string } => u !== null,
+                (
+                    u,
+                ): u is { userId: string; displayName: string; role: string } =>
+                    u !== null,
             );
 
             ok(ack, { room, user, connectedUsers });
@@ -124,7 +143,9 @@ export function handleConnectionEvents(io: Server, socket: Socket) {
         await connectionRepository.deleteConnection(connection.connectionId);
         io.to(connection.roomId).emit("presenceChanged", {
             userId: connection.userId,
-            displayName: (await userRepository.getUserById(connection.userId))?.displayName ?? null,
+            displayName:
+                (await userRepository.getUserById(connection.userId))
+                    ?.displayName ?? null,
             connected: false,
         });
     });

@@ -117,11 +117,7 @@ function attachEventListeners(): void {
         state.socket.emit(
             "playlistAdd",
             { videoId, atTop },
-            (resp: {
-                ok: boolean;
-                error?: string;
-                data?: { room?: any };
-            }) => {
+            (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
                 if (!resp.ok) {
                     alert(resp.error ?? "playlistAdd falló");
                     return;
@@ -140,13 +136,17 @@ function attachEventListeners(): void {
     );
 
     elements.voteSkipBtn?.addEventListener("click", () => {
-        state.socket.emit("skipVote", {}, (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
-            if (!resp.ok) {
-                alert(resp.error ?? "skipVote falló");
-                return;
-            }
-            if (resp.data?.room) applyRemoteRoom(resp.data.room);
-        });
+        state.socket.emit(
+            "skipVote",
+            {},
+            (resp: { ok: boolean; error?: string; data?: { room?: any } }) => {
+                if (!resp.ok) {
+                    alert(resp.error ?? "skipVote falló");
+                    return;
+                }
+                if (resp.data?.room) applyRemoteRoom(resp.data.room);
+            },
+        );
     });
 }
 
