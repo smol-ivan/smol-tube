@@ -2,7 +2,6 @@ import { APIGatewayProxyWebsocketEventV2 } from "aws-lambda";
 import { roomRepo, connectionRepo } from "../state";
 import { broadcastToRoom } from "../utils/broadcast";
 
-
 export const handler = async (event: APIGatewayProxyWebsocketEventV2) => {
     const connectionId = event.requestContext.connectionId;
 

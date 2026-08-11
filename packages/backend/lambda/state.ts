@@ -11,5 +11,3 @@ export const roomRepo = new DynamoRoomRepository(process.env.ROOMS_TABLE!);
 export const apiGw = new ApiGatewayManagementApiClient({
     endpoint: process.env.API_GW_ENDPOINT!,
 });
-
-

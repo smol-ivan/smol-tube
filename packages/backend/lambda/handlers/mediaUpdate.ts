@@ -9,9 +9,9 @@ export const handler = withContext(async ({ room, user, payload }) => {
         return { statusCode: 403 };
     }
 
-    const updatedRoom = applyMediaUpdate( room, payload)
+    const updatedRoom = applyMediaUpdate(room, payload);
     if (!updatedRoom) {
-        return { statusCode: 400}
+        return { statusCode: 400 };
     }
 
     // Persistir en base de datos
