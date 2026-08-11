@@ -6,11 +6,14 @@
     "types": "index.ts",
     "scripts": {
         "typecheck": "tsc --noEmit",
-        "test": "vitest run"
+        "test": "vitest run",
+        "format:check": "prettier --check .",
+        "lint": "pnpm format:check && pnpm typecheck"
     },
     "devDependencies": {
         "@types/node": "^26.1.2",
         "typescript": "^7.0.0",
-        "vitest": "^4.1.10"
+        "vitest": "^4.1.10",
+        "prettier": "^3.9.6"
     }
 }
