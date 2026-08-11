@@ -9,7 +9,12 @@
         "dev": "astro dev",
         "build": "astro build",
         "preview": "astro preview",
-        "astro": "astro"
+        "astro": "astro",
+        "check": "astro check",
+        "typecheck": "astro check",
+        "format:check": "prettier --check .",
+        "lint": "pnpm format:check && pnpm typecheck",
+        "test": "pnpm typecheck"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.3.3",
@@ -20,7 +25,8 @@
     "devDependencies": {
         "@astrojs/check": "^0.9.10",
         "@fsouza/prettierd": "^0.28.0",
+        "prettier": "^3.9.6",
         "prettier-plugin-astro": "^0.14.1",
-        "typescript": "^7.0.2"
+        "typescript": "^6.0.3"
     }
 }

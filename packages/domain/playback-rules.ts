@@ -92,7 +92,7 @@ export function applyPlaylistPlay(
         }
     }
 
-    const itemIndex = room.playlist.findIndex(item => item.itemId === itemId);
+    const itemIndex = room.playlist.findIndex((item) => item.itemId === itemId);
     if (itemIndex < 0) return null;
 
     const itemToPlay = room.playlist[itemIndex];
@@ -145,10 +145,13 @@ export function applyTransitionToNext(
     const { requestingUser } = request;
 
     // Solo puede avanzar si es el leader o alguien con permisos, O si ya se cumplieron los votos.
-    // Asumiremos que el backend valora si se puede llamar basado en la cantidad de votos, 
+    // Asumiremos que el backend valora si se puede llamar basado en la cantidad de votos,
     // o si el líder dice "ya terminó".
     if (room.playback.leaderUserId !== requestingUser.userId) {
-        if (!hasPermission(requestingUser, "playback:control") && room.skipVotes.length === 0) {
+        if (
+            !hasPermission(requestingUser, "playback:control") &&
+            room.skipVotes.length === 0
+        ) {
             return null;
         }
     }
@@ -166,7 +169,8 @@ export function applyTransitionToNext(
         }
     }
 
-    const nextItem = updatedPlaylist.length > 0 ? updatedPlaylist[0] : undefined;
+    const nextItem =
+        updatedPlaylist.length > 0 ? updatedPlaylist[0] : undefined;
     const nextVideoId = nextItem?.videoId ?? null;
 
     return {
@@ -179,7 +183,7 @@ export function applyTransitionToNext(
             videoId: nextVideoId,
             currentTime: 0,
             paused: false,
-        }
+        },
     };
 }
 
@@ -196,6 +200,6 @@ export function applySkipVote(
     }
     return {
         ...room,
-        skipVotes: [...room.skipVotes, request.requestingUser.userId]
+        skipVotes: [...room.skipVotes, request.requestingUser.userId],
     };
 }

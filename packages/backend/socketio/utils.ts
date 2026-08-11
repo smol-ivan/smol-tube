@@ -14,7 +14,10 @@ export function mockPasswordHash(password: string): string {
     return `mock:${password}`;
 }
 
-export function compareMockPassword(password: string, hash: string | null): boolean {
+export function compareMockPassword(
+    password: string,
+    hash: string | null,
+): boolean {
     if (!hash) {
         return false;
     }

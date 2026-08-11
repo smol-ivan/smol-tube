@@ -6,16 +6,16 @@
   "scripts": {
     "dev:front": "pnpm --filter @smol-tube/frontend dev",
     "dev:back": "pnpm --filter @smol-tube/backend dev:socket",
-    "dev": "pnpm --filter @smol-tube/frontend --filter @smol-tube/backend --parallel dev"
+    "dev": "pnpm --filter @smol-tube/frontend --filter @smol-tube/backend --parallel dev",
+    "format:check": "pnpm --recursive --if-present format:check",
+    "lint": "pnpm --recursive --if-present lint",
+    "test": "pnpm --recursive --if-present test",
+    "typecheck": "pnpm --recursive --if-present typecheck",
+    "build": "pnpm --recursive --if-present build",
+    "ci": "pnpm lint && pnpm test && pnpm build"
   },
   "author": "gordillosolis@icloud.com",
   "license": "ISC",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "^11.3.0",
-      "onFail": "download"
-    }
-  },
+  "packageManager": "pnpm@10.28.1",
   "type": "module"
 }

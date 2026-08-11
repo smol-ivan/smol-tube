@@ -91,7 +91,9 @@ export function handleMediaEvents(io: Server, socket: Socket) {
                 Math.abs(prevPlayback.currentTime - payload.currentTime) > 15;
 
             if (isStateChange || isManualSeek) {
-                io.to(context.room.roomId).emit("roomState", { room: updatedRoom });
+                io.to(context.room.roomId).emit("roomState", {
+                    room: updatedRoom,
+                });
             }
             // En heartbeat puro: solo respondemos al leader, los listeners no se tocan.
             ok(ack, { room: updatedRoom });

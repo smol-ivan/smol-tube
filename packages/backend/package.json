@@ -1,24 +1,27 @@
 {
-  "name": "@smol-tube/backend",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "tsx socketio/server.ts",
-    "dev:socket": "tsx socketio/server.ts",
-    "start:socket": "tsx socketio/server.ts",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.1101.0",
-    "@aws-sdk/lib-dynamodb": "^3.1101.0",
-    "@smol-tube/domain": "workspace:*",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "socket.io": "^4.8.3",
-    "tsx": "^4.23.5"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.3",
-    "@types/node": "^26.1.2",
-    "typescript": "^7.0.0"
-  }
+    "name": "@smol-tube/backend",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "tsx socketio/server.ts",
+        "dev:socket": "tsx socketio/server.ts",
+        "start:socket": "tsx socketio/server.ts",
+        "typecheck": "tsc --noEmit",
+        "format:check": "prettier --check .",
+        "lint": "pnpm format:check && pnpm typecheck"
+    },
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.1101.0",
+        "@aws-sdk/lib-dynamodb": "^3.1101.0",
+        "@smol-tube/domain": "workspace:*",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "socket.io": "^4.8.3",
+        "tsx": "^4.23.5"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.3",
+        "@types/node": "^26.1.2",
+        "typescript": "^7.0.0",
+        "prettier": "^3.9.6"
+    }
 }

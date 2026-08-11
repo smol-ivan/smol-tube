@@ -35,7 +35,8 @@ export function validateSeedUsers(parsed: unknown): SeedUserConfig[] {
             throw new Error(`SEED_USERS_JSON[${index}] must be an object`);
         }
 
-        const maybeDisplayName = (entry as { displayName?: unknown }).displayName;
+        const maybeDisplayName = (entry as { displayName?: unknown })
+            .displayName;
         const maybePassword = (entry as { password?: unknown }).password;
         const maybeRole = (entry as { role?: unknown }).role;
 
@@ -85,7 +86,9 @@ function readEnvRequiredIfPair(
     return { displayName, password };
 }
 
-export async function ensureMainRoom(): Promise<import("@smol-tube/domain").Room> {
+export async function ensureMainRoom(): Promise<
+    import("@smol-tube/domain").Room
+> {
     const existing = await roomRepository.getRoom(DEFAULT_ROOM_ID);
     if (existing) {
         return existing;

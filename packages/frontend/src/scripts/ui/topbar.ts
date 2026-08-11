@@ -33,6 +33,8 @@ export function updateSessionUI(): void {
 
     // "Cambiar cuenta" button in chat — texto contextual
     if (elements.guestLoginButton) {
-        elements.guestLoginButton.textContent = isLoggedIn ? "Cambiar cuenta" : "Iniciar sesión";
+        elements.guestLoginButton.textContent = isLoggedIn
+            ? "Cambiar cuenta"
+            : "Iniciar sesión";
     }
 }

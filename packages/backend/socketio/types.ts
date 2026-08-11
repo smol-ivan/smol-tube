@@ -1,6 +1,7 @@
 import { Role } from "@smol-tube/domain";
 
-export type Ack<T = unknown> = { ok: true; data?: T } | { ok: false; error: string };
+export type Ack<T = unknown> =
+    { ok: true; data?: T } | { ok: false; error: string };
 export type AckFn<T = unknown> = (response: Ack<T>) => void;
 
 export interface JoinRoomPayload {

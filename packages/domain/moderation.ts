@@ -328,7 +328,7 @@ export function applyPlaylistReorder(
 //         history: updatedHistory,
 //         skipVotes: [],
 //         // TODO: Revisar como regresar el nuevo video actual,
-//         // y si es necesario tener un atributo currentVideo: PlaylistItem, 
-//         // ya que tenemos 
+//         // y si es necesario tener un atributo currentVideo: PlaylistItem,
+//         // ya que tenemos
 //     }
 // }

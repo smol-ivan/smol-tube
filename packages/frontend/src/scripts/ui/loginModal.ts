@@ -51,10 +51,11 @@ export function doJoinRoom(displayName: string, password?: string): void {
         elements.loginSubmitBtn.textContent = "Conectando...";
     }
 
-    const payload: { displayName: string; roomId: string; password?: string } = {
-        displayName,
-        roomId: "main",
-    };
+    const payload: { displayName: string; roomId: string; password?: string } =
+        {
+            displayName,
+            roomId: "main",
+        };
     if (password) payload.password = password;
 
     state.socket.emit(

@@ -11,13 +11,13 @@
 //   Atributo "data": el Room completo serializado como JSON
 //   Atributo "expiresAt": epoch seconds, configurado como TTL de la tabla
 
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
     DynamoDBDocumentClient,
     GetCommand,
     PutCommand,
     DeleteCommand,
-} from '@aws-sdk/lib-dynamodb';
+} from "@aws-sdk/lib-dynamodb";
 import { Room, RoomRepository } from "@smol-tube/domain";
 
 export class DynamoRoomRepository implements RoomRepository {
@@ -31,29 +31,35 @@ export class DynamoRoomRepository implements RoomRepository {
     }
 
     async getRoom(roomId: string): Promise<Room | null> {
-        const result = await this.doc.send(new GetCommand({
-            TableName: this.tableName,
-            Key: { roomId },
-        }));
+        const result = await this.doc.send(
+            new GetCommand({
+                TableName: this.tableName,
+                Key: { roomId },
+            }),
+        );
 
         return (result.Item?.data as Room) ?? null;
     }
 
     async saveRoom(room: Room): Promise<void> {
-        await this.doc.send(new PutCommand({
-            TableName: this.tableName,
-            Item: {
-                roomId: room.roomId,
-                data: room,
-                expiresAt: room.expiresAt ?? undefined,
-            },
-        }));
+        await this.doc.send(
+            new PutCommand({
+                TableName: this.tableName,
+                Item: {
+                    roomId: room.roomId,
+                    data: room,
+                    expiresAt: room.expiresAt ?? undefined,
+                },
+            }),
+        );
     }
 
     async deleteRoom(roomId: string): Promise<void> {
-        await this.doc.send(new DeleteCommand({
-            TableName: this.tableName,
-            Key: { roomId },
-        }));
+        await this.doc.send(
+            new DeleteCommand({
+                TableName: this.tableName,
+                Key: { roomId },
+            }),
+        );
     }
 }
