@@ -42,7 +42,7 @@ jobs:
       - name: Subir archivos estáticos a S3
         # Esto toma la carpeta de salida de Astro (ej. 'dist' o 'build') y la sincroniza con tu bucket
         run: |
-          aws s3 sync packages/frontend/dist s3://amzn-s3-bucket-smol-tube-450367038343-us-west-2-an.s3.us-west-2.amazonaws.com --delete
+          aws s3 sync packages/frontend/dist s3://amzn-s3-bucket-smol-tube-450367038343-us-west-2-an --delete
 
       - name: Invalidar caché de CloudFront (Opcional pero recomendado)
         # Fuerza a CloudFront a mostrar los cambios de inmediato sin esperar a que expire el caché
