@@ -37,6 +37,8 @@ jobs:
 
       - name: Compilar Astro
         # Asegúrate de cambiar el filtro por el nombre de tu paquete frontend en el monorepo
+        env:
+          PUBLIC_SOCKET_URI: "wss://8dsr40tbw0.execute-api.us-west-2.amazonaws.com/prod"
         run: pnpm --filter @smol-tube/frontend build
 
       - name: Subir archivos estáticos a S3
