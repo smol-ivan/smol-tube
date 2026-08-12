@@ -3,6 +3,7 @@ import {
     DynamoDBDocumentClient,
     GetCommand,
     PutCommand,
+    DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { User, UserRepository } from "@smol-tube/domain";
 
@@ -29,6 +30,19 @@ export class DynamoUserRepository implements UserRepository {
             new PutCommand({
                 TableName: this.tableName,
                 Item: user,
+            }),
+        );
+    }
+
+    async getUserByDisplayName(displayName: string): Promise<User | null> {
+        return null;
+    }
+
+    async deleteUser(userId: string): Promise<void> {
+        await this.doc.send(
+            new DeleteCommand({
+                TableName: this.tableName,
+                Key: { userId },
             }),
         );
     }
