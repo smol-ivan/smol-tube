@@ -47,4 +47,4 @@ jobs:
       - name: Invalidar caché de CloudFront (Opcional pero recomendado)
         # Fuerza a CloudFront a mostrar los cambios de inmediato sin esperar a que expire el caché
         run: |
-          aws cloudfront create-invalidation --distribution-id TU_CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+          aws cloudfront create-invalidation --distribution-id EKPVXG5MCHSEX --paths "/*"
