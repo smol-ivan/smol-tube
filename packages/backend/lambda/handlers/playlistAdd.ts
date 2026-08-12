@@ -20,7 +20,7 @@ async function fetchVideoMeta(videoId: string) {
         durationSeconds: 0,
         thumbnailUrl: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
     };
-    
+
     const apiKey = process.env.YOUTUBE_API_KEY;
     if (!apiKey) return fallback;
 
@@ -29,14 +29,17 @@ async function fetchVideoMeta(videoId: string) {
         const res = await fetch(url);
         if (!res.ok) return fallback;
 
-        const data = await res.json() as any;
+        const data = (await res.json()) as any;
         const item = data.items?.[0];
         if (!item) return fallback;
 
         return {
             title: item.snippet?.title ?? videoId,
-            durationSeconds: parseIsoDuration(item.contentDetails?.duration ?? ""),
-            thumbnailUrl: item.snippet?.thumbnails?.medium?.url ?? fallback.thumbnailUrl,
+            durationSeconds: parseIsoDuration(
+                item.contentDetails?.duration ?? "",
+            ),
+            thumbnailUrl:
+                item.snippet?.thumbnails?.medium?.url ?? fallback.thumbnailUrl,
         };
     } catch (err) {
         return fallback;
