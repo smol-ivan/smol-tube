@@ -3,7 +3,11 @@ import { WSClient } from "./wsClient";
 import type { ConnectedUser, ChatMsg, PlaylistItem } from "./types"; //
 
 // Coloca aquí la URL wss:// que te dio AWS SAM al final del despliegue
-const SOCKET_URL = import.meta.env.PUBLIC_SOCKET_URL ?? "wss://8dsr40tbw0.execute-api.us-west-2.amazonaws.com/prod" ;
+const SOCKET_URL = import.meta.env.PUBLIC_SOCKET_URL;
+
+if (!SOCKET_URL) {
+    throw new Error("PUBLIC_SOCKET_URL is not configured");
+}
 
 const wsClient = new WSClient(SOCKET_URL);
 
