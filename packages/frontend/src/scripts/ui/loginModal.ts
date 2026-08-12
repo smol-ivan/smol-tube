@@ -58,46 +58,9 @@ export function doJoinRoom(displayName: string, password?: string): void {
         };
     if (password) payload.password = password;
 
-    state.socket.emit(
-        "joinRoom",
-        payload,
-        (response: {
-            ok: boolean;
-            error?: string;
-            data?: {
-                room?: any;
-                user?: { userId: string; role: string };
-                connectedUsers?: ConnectedUser[];
-            };
-        }) => {
-            if (!response.ok) {
-                setLoginError(response.error ?? "Error al unirse");
-                return;
-            }
-
-            // Store session info
-            state.displayName = displayName;
-            if (response.data?.user) {
-                state.currentUserId = response.data.user.userId;
-                state.currentRole = response.data.user.role;
-            }
-
-            // Populate users list from the full connected users returned by server
-            if (response.data?.connectedUsers) {
-                state.users = response.data.connectedUsers;
-            }
-
-            // Apply room state (playback + playlist)
-            if (response.data?.room) {
-                applyRemoteRoom(response.data.room);
-            }
-
-            setConnectedLabel("MAIN");
-            renderUsers();
-            updateSessionUI();
-            hideLoginModal();
-        },
-    );
+    // Solo emitimos. Ya no esperamos que response.data venga en el callback.
+    // El frontend ahora reaccionará asíncronamente al evento "joinRoomSuccess".
+    state.socket.emit("joinRoom", payload);
 }
 
 export function submitLogin(): void {

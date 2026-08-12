@@ -2,6 +2,7 @@
     "name": "@smol-tube/backend",
     "version": "1.0.0",
     "scripts": {
+        "build": "tsx scripts/build.ts",
         "clean": "rimraf node_modules dist *.tsbuildinfo",
         "dev": "tsx socketio/server.ts",
         "dev:socket": "tsx socketio/server.ts",
@@ -11,6 +12,7 @@
         "lint": "pnpm format:check && pnpm typecheck"
     },
     "dependencies": {
+        "@aws-sdk/client-apigatewaymanagementapi": "^3.1107.0",
         "@aws-sdk/client-dynamodb": "^3.1101.0",
         "@aws-sdk/lib-dynamodb": "^3.1101.0",
         "@smol-tube/domain": "workspace:*",
@@ -20,9 +22,11 @@
         "tsx": "^4.23.5"
     },
     "devDependencies": {
+        "@types/aws-lambda": "^8.10.162",
         "@types/express": "^5.0.3",
         "@types/node": "^26.1.2",
-        "typescript": "^7.0.0",
-        "prettier": "^3.9.6"
+        "esbuild": "^0.28.2",
+        "prettier": "^3.9.6",
+        "typescript": "^7.0.0"
     }
 }

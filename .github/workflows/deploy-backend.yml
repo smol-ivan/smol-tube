@@ -1,0 +1,50 @@
+name: Deploy Backend (SAM)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/backend/**"
+      - "template.yaml"
+      - "samconfig.toml"
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Configurar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Instalar AWS SAM CLI
+        uses: aws-actions/setup-sam@v2
+
+      - name: Configurar Credenciales de AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Instalar Dependencias del Monorepo
+        run: pnpm install
+
+      - name: Compilar TypeScript (esbuild)
+        run: pnpm --filter @smol-tube/backend build
+
+      - name: Construir SAM
+        run: sam build
+
+      - name: Desplegar en AWS
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
