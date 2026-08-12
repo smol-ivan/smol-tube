@@ -1,9 +1,0 @@
-[config]
-model="gemini/gemini-1.5-flash"
-fallback_models=["gemini/gemini-1.5-flash"]
-
-[pr_description]
-publish_description_as_comment = false
-add_original_user_description = true
-keep_original_user_title = true
-
