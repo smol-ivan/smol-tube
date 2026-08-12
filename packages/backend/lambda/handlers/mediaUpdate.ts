@@ -9,16 +9,22 @@ export const handler = withContext(async ({ room, user, payload }) => {
         return { statusCode: 403 };
     }
 
-    const updatedRoom = applyMediaUpdate(room, payload);
+    // Inyectamos explícitamente el requestingUser que el dominio exige
+    const updatedRoom = applyMediaUpdate(room, {
+        requestingUser: user,
+        videoId: payload.videoId,
+        currentTime: payload.currentTime,
+        paused: payload.paused,
+    });
+
     if (!updatedRoom) {
         return { statusCode: 400 };
     }
 
-    // Persistir en base de datos
     await roomRepo.saveRoom(updatedRoom);
 
-    // Hacer broadcast de los cambios a todos los sockets conectados a la sala
-    await broadcastToRoom(room.roomId, "mediaUpdate", updatedRoom.playback);
+    // CRÍTICO: El frontend de smol-tube espera "roomState", no "mediaUpdate"
+    await broadcastToRoom(room.roomId, "roomState", { room: updatedRoom });
 
     return { statusCode: 200 };
 });

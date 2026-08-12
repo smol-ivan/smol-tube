@@ -291,6 +291,249 @@ Resources:
       FunctionName: !Ref MediaUpdateFunction
       Principal: apigateway.amazonaws.com
 
+  # --- 6. BECOME LEADER (becomeLeader) ---
+  BecomeLeaderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: packages/backend/dist/
+      Handler: becomeLeader.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - execute-api:ManageConnections
+              Resource: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*/*"
+
+  BecomeLeaderIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${BecomeLeaderFunction.Arn}/invocations
+
+  BecomeLeaderRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: becomeLeader
+      Target: !Join ["/", ["integrations", !Ref BecomeLeaderIntegration]]
+
+  BecomeLeaderPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref BecomeLeaderFunction
+      Principal: apigateway.amazonaws.com
+
+  # --- 7. PLAYLIST ADD (playlistAdd) ---
+  PlaylistAddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: packages/backend/dist/
+      Handler: playlistAdd.handler
+      Environment:
+        Variables:
+          YOUTUBE_API_KEY: "{{resolve:ssm:/smol-tube/youtube-api-key}}"
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - execute-api:ManageConnections
+              Resource: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*/*"
+
+  PlaylistAddIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PlaylistAddFunction.Arn}/invocations
+
+  PlaylistAddRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: playlistAdd
+      Target: !Join ["/", ["integrations", !Ref PlaylistAddIntegration]]
+
+  PlaylistAddPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref PlaylistAddFunction
+      Principal: apigateway.amazonaws.com
+
+  # --- 8. TRANSITION NEXT (transitionNext) ---
+  TransitionNextFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: packages/backend/dist/
+      Handler: transitionNext.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - execute-api:ManageConnections
+              Resource: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*/*"
+
+  TransitionNextIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TransitionNextFunction.Arn}/invocations
+
+  TransitionNextRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: transitionNext
+      Target: !Join ["/", ["integrations", !Ref TransitionNextIntegration]]
+
+  TransitionNextPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref TransitionNextFunction
+      Principal: apigateway.amazonaws.com
+
+  # --- 9. PLAYLIST REMOVE (playlistRemove) ---
+  PlaylistRemoveFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: packages/backend/dist/
+      Handler: playlistRemove.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - execute-api:ManageConnections
+              Resource: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*/*"
+
+  PlaylistRemoveIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PlaylistRemoveFunction.Arn}/invocations
+
+  PlaylistRemoveRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: playlistRemove
+      Target: !Join ["/", ["integrations", !Ref PlaylistRemoveIntegration]]
+
+  PlaylistRemovePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref PlaylistRemoveFunction
+      Principal: apigateway.amazonaws.com
+
+  # --- 10. PLAYLIST REORDER (playlistReorder) ---
+  PlaylistReorderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: packages/backend/dist/
+      Handler: playlistReorder.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - execute-api:ManageConnections
+              Resource: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*/*"
+
+  PlaylistReorderIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PlaylistReorderFunction.Arn}/invocations
+
+  PlaylistReorderRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: playlistReorder
+      Target: !Join ["/", ["integrations", !Ref PlaylistReorderIntegration]]
+
+  PlaylistReorderPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref PlaylistReorderFunction
+      Principal: apigateway.amazonaws.com
+
+  # --- 11. PLAYLIST PLAY (playlistPlay) ---
+  PlaylistPlayFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: packages/backend/dist/
+      Handler: playlistPlay.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RoomsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - execute-api:ManageConnections
+              Resource: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*/*"
+
+  PlaylistPlayIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PlaylistPlayFunction.Arn}/invocations
+
+  PlaylistPlayRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: playlistPlay
+      Target: !Join ["/", ["integrations", !Ref PlaylistPlayIntegration]]
+
+  PlaylistPlayPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref PlaylistPlayFunction
+      Principal: apigateway.amazonaws.com
+
 # ==========================================
 # 4. OUTPUTS (Al final del archivo)
 # ==========================================

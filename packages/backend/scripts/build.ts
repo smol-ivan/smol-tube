@@ -7,6 +7,12 @@ const handlers = [
     "joinRoom",
     "chatMsg",
     "mediaUpdate",
+    "becomeLeader",
+    "playlistAdd",
+    "transitionNext",
+    "playlistRemove",
+    "playlistReorder",
+    "playlistPlay",
 ];
 
 async function runBuild() {

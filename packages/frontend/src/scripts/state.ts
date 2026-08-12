@@ -1,23 +1,28 @@
-import { io } from "socket.io-client";
-import type { ConnectedUser, ChatMsg, PlaylistItem } from "./types";
+// src/state.ts
+import { WSClient } from "./wsClient";
+import type { ConnectedUser, ChatMsg, PlaylistItem } from "./types"; //
 
-const SOCKET_URL = import.meta.env.PUBLIC_SOCKET_URL ?? "http://localhost:3000";
+// Coloca aquí la URL wss:// que te dio AWS SAM al final del despliegue
+const SOCKET_URL = import.meta.env.PUBLIC_SOCKET_URL ?? "wss://8dsr40tbw0.execute-api.us-west-2.amazonaws.com/prod" ;
+
+const wsClient = new WSClient(SOCKET_URL);
 
 export const state = {
-    socket: io(SOCKET_URL, { autoConnect: false }),
-    connected: false,
-    displayName: "",
-    currentUserId: "",
-    currentRole: "",
-    users: [] as ConnectedUser[],
-    chat: [] as ChatMsg[],
-    playlist: [] as PlaylistItem[],
-    history: [] as PlaylistItem[],
-    skipVotes: [] as string[],
+    socket: wsClient, // Reemplazamos io() por nuestra clase custom
+    connected: false, //
+    displayName: "", //[cite: 9]
+    currentUserId: "", //[cite: 9]
+    currentRole: "", //[cite: 9]
+    users: [] as ConnectedUser[], //[cite: 9]
+    chat: [] as ChatMsg[], //[cite: 9]
+    playlist: [] as PlaylistItem[], //[cite: 9]
+    history: [] as PlaylistItem[], //[cite: 9]
+    skipVotes: [] as string[], //[cite: 9]
     playback: {
-        videoId: null as string | null,
-        currentTime: 0,
-        paused: true,
-        leaderUserId: null as string | null,
+        //[cite: 9]
+        videoId: null as string | null, //[cite: 9]
+        currentTime: 0, //[cite: 9]
+        paused: true, //[cite: 9]
+        leaderUserId: null as string | null, //[cite: 9]
     },
 };
