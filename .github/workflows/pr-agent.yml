@@ -23,15 +23,20 @@ jobs:
   pr-agent:
     if: github.event_name != 'issue_comment' || github.event.issue.pull_request
     runs-on: ubuntu-latest
+
     steps:
       - name: Run PR Agent
         uses: the-pr-agent/pr-agent@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          config.model: "gemini/gemini-2.5-flash"
-          config.fallback_models: '["gemini/gemini-2.5-flash-lite"]'
+
+          config.model: "gemini/gemini-3.5-flash"
+          config.fallback_models: '["gemini/gemini-3.1-flash-lite"]'
+
           GOOGLE_AI_STUDIO.GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          github_action_config.auto_review: "true"
+
+          github_action_config.auto_review: "false"
           github_action_config.auto_describe: "true"
-          github_action_config.auto_improve: "true"
-          github_action_config.pr_actions: '["opened", "reopened", "ready_for_review", "review_requested"]'
+          github_action_config.auto_improve: "false"
+
+          github_action_config.pr_actions: '["opened", "reopened", "ready_for_review"]'

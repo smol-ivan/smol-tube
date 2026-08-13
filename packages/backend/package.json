@@ -8,6 +8,7 @@
         "dev:socket": "tsx socketio/server.ts",
         "start:socket": "tsx socketio/server.ts",
         "typecheck": "tsc --noEmit",
+        "format:write": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "pnpm format:check && pnpm typecheck"
     },
