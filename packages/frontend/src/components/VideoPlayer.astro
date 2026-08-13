@@ -3,7 +3,9 @@ interface Props {
     currentTitle?: string;
 }
 
-const { currentTitle = "Sin video" } = Astro.props;
+const { currentTitle = "None" } = Astro.props;
+
+import { Icon } from "astro-icon/components";
 ---
 
 <section class="video-panel flex flex-col flex-1 bg-surface-dim relative">
@@ -24,24 +26,23 @@ const { currentTitle = "Sin video" } = Astro.props;
             >
         </div>
         <div class="flex items-center gap-1 text-on-surface-variant">
-            <span
+            <Icon
+                name="lucide:plus"
                 data-player-expand
-                class="material-symbols-outlined text-[16px] cursor-pointer hover:text-on-surface"
-                >add</span
-            >
-            <span
+                class="size-4 cursor-pointer hover:text-on-surface"
+            />
+            <Icon
+                name="lucide:minus"
                 data-player-shrink
-                class="material-symbols-outlined text-[16px] cursor-pointer hover:text-on-surface"
-                >remove</span
-            >
+                class="size-4 cursor-pointer hover:text-on-surface"
+            />
         </div>
     </div>
 
     <div
-        class="flex-1 relative bg-black flex items-center justify-center overflow-hidden"
+        class="w-full bg-black flex items-center justify-center overflow-hidden"
     >
-        <div id="yt-player" class="absolute aspect-video inset-0 w-full h-full">
-        </div>
+        <div id="yt-player" class="w-full aspect-video max-h-[45vh]"></div>
     </div>
 
     <div
@@ -50,37 +51,12 @@ const { currentTitle = "Sin video" } = Astro.props;
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-1">
                 <button
-                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
-                    title="Add to Playlist"
-                >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >add</span
-                    >
-                </button>
-                <button
-                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
-                    title="Search"
-                >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >search</span
-                    >
-                </button>
-                <button
-                    class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
-                    title="Playlist List"
-                >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >format_list_bulleted</span
-                    >
-                </button>
-                <button
                     data-sync-status
-                    class="bg-secondary/20 border border-secondary p-1.5 rounded text-secondary transition-colors"
-                    title="Sync Status: Connected"
+                    class="bg-surface-variant border border-outline-variant p-1.5 rounded text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-colors cursor-pointer"
+                    title="Without a leader - click to take control"
                 >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >check</span
-                    >
+                    <!-- Mantenemos el componente para el servidor, pero el JS lo actualizará -->
+                    <Icon name="lucide:star-off" class="size-4" />
                 </button>
             </div>
             <div class="flex items-center gap-1">
@@ -88,42 +64,32 @@ const { currentTitle = "Sin video" } = Astro.props;
                     class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
                     title="Refresh Sync"
                 >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >sync</span
-                    >
+                    <Icon name="lucide:cloud-sync" class="size-4" />
                 </button>
                 <button
                     class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
                     title="Fullscreen"
                 >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >fullscreen</span
-                    >
+                    <Icon name="lucide:fullscreen" class="size-4" />
                 </button>
                 <button
                     class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
                     title="Copy Link"
                 >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >link</span
-                    >
+                    <Icon name="lucide:link-2" class="size-4" />
                 </button>
                 <button
                     class="bg-surface-variant border border-outline-variant p-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface"
                     title="Next Video"
                 >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >skip_next</span
-                    >
+                    <Icon name="lucide:skip-forward" class="size-4" />
                 </button>
                 <button
                     data-vote-skip
-                    class="bg-surface-variant border border-outline-variant px-3 py-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface font-label-md text-label-md flex items-center gap-1"
+                    class="bg-surface-variant border border-outline-variant px-1.5 py-1.5 rounded hover:bg-surface-container-highest transition-colors text-on-surface font-label-md text-label-md flex items-center gap-1"
                     title="Vote to skip current video"
                 >
-                    <span class="material-symbols-outlined text-[18px]"
-                        >forward</span
-                    >
+                    <Icon name="lucide:vote" class="size-4" />
                     Vote Skip (<span id="skip-votes-count">0</span>)
                 </button>
             </div>

@@ -8,7 +8,7 @@ export function renderChat(): void {
     const header = document.createElement("div");
     header.className =
         "text-on-surface-variant text-center my-4 font-label-md text-label-md italic opacity-70";
-    header.textContent = "--- Chat conectado ---";
+    header.textContent = "--- Chat active ---";
     elements.chatMessages.appendChild(header);
 
     for (const item of state.chat) {

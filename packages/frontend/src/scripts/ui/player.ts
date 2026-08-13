@@ -1,7 +1,7 @@
 import { state } from "../state";
 import { isLeader } from "../utils";
 import { applyRemoteRoom } from "../handlers/room";
-import { isSuppressEmit, setSuppressEmit } from "../handlers/room";
+import { isSuppressEmit} from "../handlers/room";
 
 let ytPlayer: any = null;
 let ytReady = false;
@@ -98,7 +98,7 @@ export async function createPlayerAndApply(
         // este es el nodo que YT.Player reemplazará por el iframe.
         anchor.innerHTML = "";
         const mountPoint = document.createElement("div");
-        mountPoint.className = "absolute inset-0 w-full h-full";
+        mountPoint.className = "aspect-video w-full max-h-[70vh]";
         anchor.appendChild(mountPoint);
 
         currentControlsSetting = shouldHaveControls;

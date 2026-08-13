@@ -139,9 +139,10 @@
     /* Grid Layout Classes */
     .dashboard-grid {
         display: grid;
-        grid-template-columns: 320px 1fr;
+        grid-template-columns: 420px 1fr;
         grid-template-rows: 1fr;
-        height: calc(100vh - 48px);
+        flex: 1;
+        min-height: 0;
         overflow: hidden;
     }
     @media (max-width: 1200px) {
@@ -150,6 +151,10 @@
         }
     }
     @media (max-width: 768px) {
+        body {
+            height: auto !important;
+            overflow: auto !important;
+        }
         .dashboard-grid {
             display: flex;
             flex-direction: column;

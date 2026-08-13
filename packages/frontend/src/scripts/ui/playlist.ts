@@ -1,6 +1,6 @@
 import { state } from "../state";
 import { elements } from "../elements";
-import { formatDuration } from "../utils";
+import { formatDuration, renderIcon } from "../utils";
 
 export function renderPlaylist(): void {
     if (!elements.playlistItems) return;
@@ -52,7 +52,7 @@ export function renderPlaylist(): void {
         const empty = document.createElement("div");
         empty.className =
             "flex-1 flex items-center justify-center p-4 text-center font-label-md text-label-md text-on-surface-variant opacity-40 italic";
-        empty.textContent = "La playlist está vacía";
+        empty.textContent = "Empty playlist";
         elements.playlistItems.appendChild(empty);
     } else {
         for (const [index, item] of state.playlist.entries()) {
@@ -107,8 +107,8 @@ export function renderPlaylist(): void {
             drag.className =
                 "text-on-surface-variant/50 group-hover:text-on-surface-variant cursor-grab shrink-0";
             drag.innerHTML = isPlaying
-                ? '<span class="material-symbols-outlined text-[16px] text-primary">play_arrow</span>'
-                : '<span class="material-symbols-outlined text-[16px]">drag_indicator</span>';
+                ? renderIcon("Play", "size-4 text-primary")
+                : renderIcon("ListChevronsUpDown", "size-4");
 
             // Miniatura del video
             const thumb = document.createElement("img");
@@ -144,8 +144,10 @@ export function renderPlaylist(): void {
 
                 if (!isPlaying) {
                     const playBtn = document.createElement("button");
-                    playBtn.innerHTML =
-                        '<span class="material-symbols-outlined text-[16px] hover:text-primary">play_arrow</span>';
+                    playBtn.innerHTML = renderIcon(
+                        "Play",
+                        "size-4 hover:text-primary transition-colors",
+                    );
                     playBtn.title = "Play Now";
                     playBtn.addEventListener("click", (e) => {
                         e.stopPropagation();
@@ -159,8 +161,10 @@ export function renderPlaylist(): void {
                 if (index > 1) {
                     // 0 is playing, 1 is already at top
                     const topBtn = document.createElement("button");
-                    topBtn.innerHTML =
-                        '<span class="material-symbols-outlined text-[16px] hover:text-secondary">vertical_align_top</span>';
+                    topBtn.innerHTML = renderIcon(
+                        "ArrowDownToLine",
+                        "size-4 hover:text-secondary transition-colors",
+                    );
                     topBtn.title = "Move to Top (Queue Next)";
                     topBtn.addEventListener("click", (e) => {
                         e.stopPropagation();
@@ -174,8 +178,10 @@ export function renderPlaylist(): void {
 
                 if (index < state.playlist.length - 1 && index > 0) {
                     const bottomBtn = document.createElement("button");
-                    bottomBtn.innerHTML =
-                        '<span class="material-symbols-outlined text-[16px] hover:text-secondary">vertical_align_bottom</span>';
+                    bottomBtn.innerHTML = renderIcon(
+                        "ArrowUpToLine",
+                        "size-4 hover:text-secondary transition-colors",
+                    );
                     bottomBtn.title = "Move to Bottom";
                     bottomBtn.addEventListener("click", (e) => {
                         e.stopPropagation();
@@ -190,8 +196,10 @@ export function renderPlaylist(): void {
                 if (index > 0) {
                     // Don't remove currently playing video directly here to avoid confusion
                     const delBtn = document.createElement("button");
-                    delBtn.innerHTML =
-                        '<span class="material-symbols-outlined text-[16px] hover:text-error">close</span>';
+                    delBtn.innerHTML = renderIcon(
+                        "X",
+                        "size-4 hover:text-error transition-colors",
+                    );
                     delBtn.title = "Remove";
                     delBtn.addEventListener("click", (e) => {
                         e.stopPropagation();

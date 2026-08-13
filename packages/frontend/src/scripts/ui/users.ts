@@ -6,7 +6,7 @@ export function renderUsers(): void {
     if (!elements.usersList || !elements.usersCount) return;
 
     const count = state.users.length;
-    elements.usersCount.innerHTML = `<span class="material-symbols-outlined text-[14px] align-middle mr-1">group</span>Users (${count})`;
+    elements.usersCount.innerHTML = `Users (${count})`;
     elements.usersList.innerHTML = "";
 
     for (const user of state.users) {

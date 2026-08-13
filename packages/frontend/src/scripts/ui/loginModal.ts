@@ -1,9 +1,5 @@
 import { state } from "../state";
 import { elements } from "../elements";
-import { setConnectedLabel, updateSessionUI } from "./topbar";
-import { renderUsers } from "./users";
-import { applyRemoteRoom } from "../handlers/room";
-import type { ConnectedUser } from "../types";
 
 export function showLoginModal(): void {
     if (!elements.loginModal) return;
@@ -41,7 +37,7 @@ export function setLoginError(msg: string): void {
     elements.loginErrorMsg.classList.remove("hidden");
     if (elements.loginSubmitBtn) {
         elements.loginSubmitBtn.disabled = false;
-        elements.loginSubmitBtn.textContent = "Unirse a la sala";
+        elements.loginSubmitBtn.textContent = "Join Room";
     }
 }
 
