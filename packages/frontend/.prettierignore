@@ -11,5 +11,5 @@ config.local.js
 *.html
 *.json
 *.css
-*.md
+# *.md
 
