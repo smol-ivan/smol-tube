@@ -23,16 +23,43 @@ import LoginModal from "../components/LoginModal.astro";
 
         <div class="flex flex-col h-full overflow-hidden">
             <VideoPlayer>
-                <MediaQueueForm
-                    mediaPlaceholder="URL o ID de YouTube"
-                    temporaryFieldId="temp-add"
-                    temporaryLabel="Agregar como temporal"
-                />
+                <MediaQueueForm mediaPlaceholder="URL or ID from Youtube" />
             </VideoPlayer>
 
             <PlaylistPanel />
         </div>
     </main>
+
+    <footer
+        class="w-full py-1 px-3 bg-surface border-t border-outline-variant text-shadow-on-surface-variant text-label-sm flex items-center justify-center gap-2"
+    >
+        <span>© 2026 Ivan Gordillo</span>
+
+        <span class="text-outline-variant">•</span>
+
+        <a
+            href="https://smol-ivan.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary hover:underline font-medium transition-colors"
+        >
+            Website
+        </a>
+
+        <span class="text-outline-variant">•</span>
+
+        <span class="flex items-center gap-1">
+            Powered by
+            <a
+                href="https://astro.build"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-primary hover:underline font-medium transition-colors"
+            >
+                Astro
+            </a>
+        </span>
+    </footer>
 
     <script src="../scripts/index.ts"></script>
 </Layout>

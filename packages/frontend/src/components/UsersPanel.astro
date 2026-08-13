@@ -1,25 +1,21 @@
 ---
 // UsersPanel.astro — sin props estáticos, JS controla todo
+import { Icon } from "astro-icon/components";
 ---
 
 <div class="flex-shrink-0 flex flex-col border-b border-outline-variant">
     <div
         class="h-8 px-panel-padding flex items-center justify-between border-b border-outline-variant bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors"
     >
+        <Icon name="lucide:users" class="size-4 align-middle mr-1" />
         <span
             data-users-count
             class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
         >
-            <span
-                class="material-symbols-outlined text-[14px] align-middle mr-1"
-                >group</span
-            >
             Users (0)
         </span>
-        <span
-            class="material-symbols-outlined text-[16px] text-on-surface-variant"
-            >expand_more</span
-        >
+
+        <Icon name="lucide:chevron-down" class="size-4 align-middle mr-1" />
     </div>
     <div data-users-list class="p-panel-padding max-h-32 overflow-y-auto">
         <!-- El JS renderiza los usuarios aquí -->

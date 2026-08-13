@@ -1,18 +1,15 @@
 ---
-// ChatPanel.astro — sin props, todo lo maneja el JS
+import { Icon } from "astro-icon/components";
 ---
 
 <div class="flex-1 flex flex-col overflow-hidden">
     <div
         class="h-8 px-panel-padding flex items-center border-b border-outline-variant bg-surface-container-low"
     >
+        <Icon name="lucide:messages-square" class="align-middle mr-1 size-4" />
         <span
             class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
         >
-            <span
-                class="material-symbols-outlined text-[14px] align-middle mr-1"
-                >chat</span
-            >
             Chat
         </span>
     </div>
@@ -29,7 +26,7 @@
             <input
                 data-chat-input
                 class="flex-1 bg-surface-container-low border border-outline-variant rounded font-body-md text-body-md px-3 py-1.5 focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none text-on-surface placeholder:text-on-surface-variant/50"
-                placeholder="Escribe un mensaje..."
+                placeholder="What is on your mind..."
                 type="text"
             />
             <button

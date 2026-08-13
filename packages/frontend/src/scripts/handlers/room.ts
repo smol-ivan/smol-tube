@@ -1,6 +1,6 @@
 import { state } from "../state";
 import { elements } from "../elements";
-import { isLeader } from "../utils";
+import { isLeader, renderIcon } from "../utils";
 import { renderPlaylist } from "../ui/playlist";
 import { createPlayerAndApply } from "../ui/player";
 
@@ -53,24 +53,46 @@ export function applyRemoteRoom(room: any): void {
                         ? activeItem.title
                         : `youtube.com/watch?v=${remoteVideoId}`;
             } else {
-                elements.currentTitle.textContent = "Sin video";
+                elements.currentTitle.textContent = "Without a video";
             }
         }
 
         // Sync button visual: highlight if we're leader
         if (elements.syncStatus) {
-            if (isLeader()) {
-                elements.syncStatus.classList.add("bg-secondary/40");
-                elements.syncStatus.title =
-                    "Eres el leader — controlas la reproducción";
+            const userIsLeader = isLeader();
+
+            if (userIsLeader) {
+                // --- ESTADO LÍDER ---
+                // Icono: Estrella con Check
+                elements.syncStatus.innerHTML = renderIcon(
+                    "StarCheck",
+                    "size-4 text-secondary",
+                );
+                elements.syncStatus.title = "You are the leader";
+
+                // Estilos del botón activo (Resaltado en color secondary)
+                elements.syncStatus.className =
+                    "bg-secondary/20 border border-secondary p-1.5 rounded text-secondary hover:bg-secondary/30 transition-colors cursor-pointer";
             } else {
-                elements.syncStatus.classList.remove("bg-secondary/40");
+                // --- ESTADO NO LÍDER ---
+                // Icono: Estrella Apagada (StarOff)
+                elements.syncStatus.innerHTML = renderIcon(
+                    "StarOff",
+                    "size-4 text-on-surface-variant",
+                );
+
+                const leaderUser = state.users.find(
+                    (u) => u.userId === remoteLeader,
+                );
                 elements.syncStatus.title = remoteLeader
-                    ? `Leader: ${state.users.find((u) => u.userId === remoteLeader)?.displayName ?? remoteLeader}`
-                    : "Sin leader — haz clic para tomar el control";
+                    ? `Leader: ${leaderUser?.displayName ?? remoteLeader}`
+                    : "Without a leader - click on the button to take control";
+
+                // Estilos del botón neutro con hover suave
+                elements.syncStatus.className =
+                    "bg-surface-variant border border-outline-variant p-1.5 rounded text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-colors cursor-pointer";
             }
         }
-
         createPlayerAndApply(remoteVideoId, remoteTime, remotePaused);
     } finally {
         setTimeout(() => {

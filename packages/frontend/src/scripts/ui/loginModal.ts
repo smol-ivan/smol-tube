@@ -41,7 +41,7 @@ export function setLoginError(msg: string): void {
     elements.loginErrorMsg.classList.remove("hidden");
     if (elements.loginSubmitBtn) {
         elements.loginSubmitBtn.disabled = false;
-        elements.loginSubmitBtn.textContent = "Unirse a la sala";
+        elements.loginSubmitBtn.textContent = "Join Room";
     }
 }
 

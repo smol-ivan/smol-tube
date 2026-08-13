@@ -1,23 +1,32 @@
 ---
 // PlaylistPanel.astro — sin props estáticos, JS controla todo
+import { Icon } from "astro-icon/components";
 ---
 
 <aside
     class="playlist-panel border-t border-outline-variant bg-surface flex flex-col h-64 flex-shrink-0"
 >
     <div
-        class="h-8 px-panel-padding flex items-center border-b border-outline-variant bg-surface-container-low"
+        class="h-8 px-panel-padding flex justify-between items-center border-b border-outline-variant bg-surface-container-low"
     >
-        <span
-            class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+        <!-- Lado Izquierdo: Icono + Título -->
+        <div class="flex items-center text-on-surface-variant">
+            <Icon name="lucide:list-music" class="size-4 mr-1.5" />
+            <span class="font-label-sm text-label-sm uppercase tracking-widest">
+                Playlist
+            </span>
+        </div>
+
+        <!-- Lado Derecho: Contador e Información de Tiempo en la misma línea -->
+        <div
+            class="flex items-center gap-2 font-label-md text-label-md text-on-surface-variant"
         >
-            <span
-                class="material-symbols-outlined text-[14px] align-middle mr-1"
-                >queue_music</span
-            >
-            Playlist
-        </span>
+            <span data-playlist-count>0 items</span>
+            <span class="text-outline-variant/60">•</span>
+            <span data-playlist-duration class="font-mono">00:00</span>
+        </div>
     </div>
+
     <div class="flex-1 overflow-y-auto bg-surface-dim flex flex-col">
         <!-- History section -->
         <div
@@ -25,9 +34,9 @@
             class="hidden flex-col flex-shrink-0 border-b border-outline-variant bg-surface-container/50"
         >
             <div
-                class="px-3 py-1 text-xs font-label-sm uppercase tracking-widest text-on-surface-variant/70 border-b border-outline-variant/50"
+                class="px-3 py-1 font-label-sm text-xs uppercase tracking-widest text-on-surface-variant/70 border-b border-outline-variant/50"
             >
-                Historial
+                History
             </div>
             <div data-playlist-history-items class="flex flex-col"></div>
         </div>
@@ -37,23 +46,8 @@
             <div
                 class="flex-1 flex items-center justify-center p-4 text-center font-label-md text-label-md text-on-surface-variant opacity-40 italic"
             >
-                La playlist está vacía
+                The playlist is empty
             </div>
-        </div>
-        <!-- Footer -->
-        <div
-            class="px-panel-padding py-1 border-t border-outline-variant bg-surface/50 flex justify-between items-center flex-shrink-0"
-        >
-            <span
-                data-playlist-count
-                class="font-label-md text-label-md text-on-surface-variant"
-                >0 items</span
-            >
-            <span
-                data-playlist-duration
-                class="font-label-md text-label-md text-on-surface-variant"
-                >00:00</span
-            >
         </div>
     </div>
 </aside>

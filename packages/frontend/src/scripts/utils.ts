@@ -1,4 +1,5 @@
 import { state } from "./state";
+import { icons, createElement } from "lucide";
 
 export function isLeader(): boolean {
     return !!(
@@ -42,4 +43,21 @@ export function parseYouTubeId(input: string): string | null {
     const simpleId = idCandidate.match(/^[a-zA-Z0-9_-]{8,}$/);
     if (simpleId) return idCandidate;
     return null;
+}
+
+export function renderIcon(
+    iconName: keyof typeof icons,
+    customClass: string = "size-4",
+): string {
+    const iconData = icons[iconName];
+    if (!iconData) return "";
+
+    // createElement crea un elemento SVG del DOM
+    const svgElement = createElement(iconData);
+
+    // Le aplicamos tus clases de Tailwind
+    svgElement.setAttribute("class", customClass);
+
+    // Retornamos el HTML en string
+    return svgElement.outerHTML;
 }

@@ -42,10 +42,10 @@ function doLogout(): void {
 // ──────────────────────────────────────────────────────────────
 function attachEventListeners(): void {
     // Manipulate css of media player
-    let currentChatWidth = 280;
+    let currentChatWidth = 420;
     const STEP = 100;
-    const MIN_CHAT_WIDTH = 320;
-    const MAX_CHAT_WIDTH = 920;
+    const MIN_CHAT_WIDTH = 420;
+    const MAX_CHAT_WIDTH = 720;
 
     elements.playerExpandBtn?.addEventListener("click", () => {
         // Para que el reproductor crezca, el chat debe encogerse

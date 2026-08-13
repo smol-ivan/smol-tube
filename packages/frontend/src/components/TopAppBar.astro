@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 interface Props {
     appName: string;
 }
@@ -51,17 +53,13 @@ const { appName } = Astro.props;
                 aria-label="settings"
                 class="hover:bg-surface-variant/20 p-1 rounded transition-colors"
             >
-                <span class="material-symbols-outlined text-[20px]"
-                    >settings</span
-                >
+                <Icon name="lucide:settings-2" class="size-4" />
             </button>
             <button
                 aria-label="notifications"
                 class="hover:bg-surface-variant/20 p-1 rounded transition-colors"
             >
-                <span class="material-symbols-outlined text-[20px]"
-                    >notifications</span
-                >
+                <Icon name="lucide:message-square-dot" class="size-4" />
             </button>
         </div>
         <div class="h-6 w-px bg-outline-variant mx-2"></div>
