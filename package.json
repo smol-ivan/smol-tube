@@ -9,6 +9,7 @@
     "dev:back": "pnpm --filter @smol-tube/backend dev:socket",
     "dev": "pnpm --filter @smol-tube/frontend --filter @smol-tube/backend --parallel dev",
     "format:check": "pnpm --recursive --if-present format:check",
+    "format:write": "pnpm --recursive --if-present format:write",
     "lint": "pnpm --recursive --if-present lint",
     "test": "pnpm --recursive --if-present test",
     "typecheck": "pnpm --recursive --if-present typecheck",

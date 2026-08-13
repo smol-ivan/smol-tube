@@ -8,6 +8,7 @@
         "clean": "rimraf node_modules dist *.tsbuildinfo",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
+        "format:write": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "pnpm format:check && pnpm typecheck"
     },
