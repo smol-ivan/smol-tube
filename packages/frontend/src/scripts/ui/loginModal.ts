@@ -1,9 +1,5 @@
 import { state } from "../state";
 import { elements } from "../elements";
-import { setConnectedLabel, updateSessionUI } from "./topbar";
-import { renderUsers } from "./users";
-import { applyRemoteRoom } from "../handlers/room";
-import type { ConnectedUser } from "../types";
 
 export function showLoginModal(): void {
     if (!elements.loginModal) return;

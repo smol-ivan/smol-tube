@@ -1,7 +1,7 @@
 import { state } from "../state";
 import { isLeader } from "../utils";
 import { applyRemoteRoom } from "../handlers/room";
-import { isSuppressEmit, setSuppressEmit } from "../handlers/room";
+import { isSuppressEmit} from "../handlers/room";
 
 let ytPlayer: any = null;
 let ytReady = false;
