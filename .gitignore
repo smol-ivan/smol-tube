@@ -4,3 +4,4 @@ node_modules/
 .env.*.local
 /.aws-sam
 /packages/backend/dist
+/.node-version
