@@ -15,25 +15,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/setup@v1
         with:
-          version: 10.28.1
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.12.0
-          cache: pnpm
+          version: 11
+          runtime: node@22
+          install: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Run formater
-        run: pnpm format:write
 
       - name: Run lint
         run: pnpm lint
@@ -43,4 +35,3 @@ jobs:
 
       - name: Run build
         run: pnpm build
-
