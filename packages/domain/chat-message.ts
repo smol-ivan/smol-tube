@@ -1,14 +1,12 @@
 // domain/chat-message.ts
 //
-// Forma de un mensaje de chat. Deliberadamente NO incluimos un
-// "messageId" persistente ni asumimos que esto se guarda en ningún
-// lado -- según decidiste, el historial de chat puede ser puro
-// pasa-through (Lambda recibe -> reenvía a todos -> no guarda nada).
+// Shape of a chat message. There is deliberately no persistent
+// "messageId": chat is pass-through (Lambda receives -> broadcasts to
+// everyone -> stores nothing).
 //
-// Si en el futuro decides sí guardar los últimos N mensajes (por
-// ejemplo, para que alguien que se conecta tarde vea contexto), esta
-// misma forma sirve tanto para el mensaje "en vuelo" como para un
-// registro persistido -- no hace falta otra entidad.
+// If the last N messages are ever kept (e.g. so late joiners get some
+// context), this same shape works for both the in-flight message and
+// the stored record -- no extra entity needed.
 
 export interface ChatMessage {
     fromUserId: string;
@@ -17,10 +15,9 @@ export interface ChatMessage {
     sentAt: number; // epoch seconds
 }
 
-// Reglas mínimas de validación que SÍ viven en domain/ porque son
-// negocio puro, no infraestructura (a diferencia del rate-limiting,
-// que si decides tenerlo, probablemente necesite estado compartido
-// entre invocaciones -- eso va en un repository, no aquí).
+// Minimal validation lives in domain/ because it is pure business
+// logic, not infrastructure (unlike rate limiting, which would need
+// state shared across invocations -- that belongs in a repository).
 const MAX_MESSAGE_LENGTH = 320;
 
 export function isValidChatMessage(text: string): boolean {

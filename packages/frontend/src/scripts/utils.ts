@@ -55,7 +55,7 @@ export function renderIcon(
     // createElement crea un elemento SVG del DOM
     const svgElement = createElement(iconData);
 
-    // Le aplicamos tus clases de Tailwind
+    // Apply the requested Tailwind classes
     svgElement.setAttribute("class", customClass);
 
     // Retornamos el HTML en string

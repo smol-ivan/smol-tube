@@ -4,7 +4,7 @@ import { roomRepo } from "../state";
 import { applyPlaylistAdd } from "@smol-tube/domain";
 import { randomUUID } from "crypto";
 
-// Rescatado de tu implementación anterior de Socket.IO
+// Same parser as the Socket.IO adapter (socketio/handlers/playlist.ts)
 function parseIsoDuration(iso: string): number {
     const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
     if (!match) return 0;

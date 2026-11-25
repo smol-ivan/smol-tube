@@ -299,36 +299,3 @@ export function applyPlaylistReorder(
         playlist: updatedPlaylist,
     };
 }
-
-// export interface applyTransitionToNextRequest {
-//     currentVideo: PlaylistItem | null;
-//     nextVideo: PlaylistItem | null;
-//     remainingPlaylist: PlaylistItem[];
-// }
-//
-//
-// export function applyTransitionToNext(
-//     room: Room,
-//     request: applyTransitionToNextRequest,
-// ): Room | null {
-//     const { currentVideo,nextVideo, remainingPlaylist } = request;
-//
-//     const updatedHistory = [...room.history];
-//
-//     if (currentVideo) {
-//         updatedHistory.push(currentVideo)
-//     }
-//
-//     if (updatedHistory.length > 3) {
-//         updatedHistory.shift()
-//     }
-//
-//     return {
-//         ...room,
-//         history: updatedHistory,
-//         skipVotes: [],
-//         // TODO: Revisar como regresar el nuevo video actual,
-//         // y si es necesario tener un atributo currentVideo: PlaylistItem,
-//         // ya que tenemos
-//     }
-// }

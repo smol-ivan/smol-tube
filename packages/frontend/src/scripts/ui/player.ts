@@ -136,7 +136,7 @@ export async function createPlayerAndApply(
                         if (!toApply.paused) ytPlayer.playVideo();
                     }
 
-                    // Iniciar el ping de sincronización (ver Problema 2)
+                    // Start the leader heartbeat (see startContinuousSync)
                     startContinuousSync();
                 },
                 onStateChange: (ev: any) => {

@@ -1,31 +1,31 @@
 // src/socket.ts
-import { state } from "./state"; //[cite: 9]
-import { applyRemoteRoom } from "./handlers/room"; //[cite: 9]
-import { setConnectedLabel, updateSessionUI } from "./ui/topbar"; //[cite: 9]
-import { showLoginModal, hideLoginModal } from "./ui/loginModal"; //[cite: 9]
-import { renderUsers } from "./ui/users"; //[cite: 9]
-import { renderChat } from "./ui/chat"; //[cite: 9]
-import type { ChatMsg } from "./types"; //[cite: 9]
+import { state } from "./state";
+import { applyRemoteRoom } from "./handlers/room";
+import { setConnectedLabel, updateSessionUI } from "./ui/topbar";
+import { showLoginModal, hideLoginModal } from "./ui/loginModal";
+import { renderUsers } from "./ui/users";
+import { renderChat } from "./ui/chat";
+import type { ChatMsg } from "./types";
 
 export function setupSocketListeners(): void {
     // Usamos los callbacks de ciclo de vida de nuestro WSClient
     state.socket.onConnect = () => {
         state.connected = true;
-        // No hacer nada más el login modal maneja el flujo[cite: 9]
+        // Nothing else to do here: the login modal drives the join flow
     };
 
     state.socket.onDisconnect = () => {
-        state.connected = false; //[cite: 9]
-        state.currentUserId = ""; //[cite: 9]
-        state.currentRole = ""; //[cite: 9]
-        state.users = []; //[cite: 9]
-        renderUsers(); //[cite: 9]
-        setConnectedLabel("Disconnected"); //[cite: 9]
-        updateSessionUI(); //[cite: 9]
-        showLoginModal(); //[cite: 9]
+        state.connected = false;
+        state.currentUserId = "";
+        state.currentRole = "";
+        state.users = [];
+        renderUsers();
+        setConnectedLabel("Disconnected");
+        updateSessionUI();
+        showLoginModal();
     };
 
-    // NUEVO: Escuchar la respuesta directa de nuestro Join Room
+    // Direct reply to our own joinRoom request
     state.socket.on("joinRoomSuccess", (payload: any) => {
         if (payload.user) {
             state.displayName = payload.user.displayName;
@@ -44,10 +44,10 @@ export function setupSocketListeners(): void {
         setConnectedLabel("MAIN");
         renderUsers();
         updateSessionUI();
-        hideLoginModal(); // <-- Aquí quitamos la pantalla de carga
+        hideLoginModal(); // Hide the loading/login overlay
     });
 
-    // --- Los eventos de negocio se mantienen IGUAL gracias al Wrapper ---
+    // --- Room events (same names as the Socket.IO contract) ---
 
     state.socket.on(
         "presenceChanged",
@@ -56,51 +56,45 @@ export function setupSocketListeners(): void {
             displayName?: string | null;
             connected: boolean;
         }) => {
-            //[cite: 9]
-            const { userId, displayName, connected } = payload; //[cite: 9]
+            const { userId, displayName, connected } = payload;
             if (connected) {
                 if (!state.users.find((u) => u.userId === userId)) {
-                    //[cite: 9]
                     state.users.push({
                         userId,
                         displayName: displayName ?? userId,
-                    }); //[cite: 9]
-                    renderUsers(); //[cite: 9]
+                    });
+                    renderUsers();
                 }
             } else {
-                state.users = state.users.filter((u) => u.userId !== userId); //[cite: 9]
-                renderUsers(); //[cite: 9]
+                state.users = state.users.filter((u) => u.userId !== userId);
+                renderUsers();
             }
         },
     );
 
     state.socket.on("roomState", (payload: any) => {
-        //[cite: 9]
         // Si el payload viene envuelto o directo
         const room = payload?.room || payload;
         if (!room) return;
-        applyRemoteRoom(room); //[cite: 9]
+        applyRemoteRoom(room);
     });
 
     state.socket.on("chatMsg", (message: ChatMsg) => {
-        //[cite: 9]
-        state.chat = [...state.chat, message]; //[cite: 9]
-        renderChat(); //[cite: 9]
+        state.chat = [...state.chat, message];
+        renderChat();
     });
 
     state.socket.on(
         "userRoleUpdated",
         (payload: { userId: string; role: string }) => {
-            //[cite: 9]
-            const user = state.users.find((u) => u.userId === payload.userId); //[cite: 9]
+            const user = state.users.find((u) => u.userId === payload.userId);
             if (user) {
-                user.role = payload.role; //[cite: 9]
-                renderUsers(); //[cite: 9]
+                user.role = payload.role;
+                renderUsers();
             }
             if (payload.userId === state.currentUserId) {
-                //[cite: 9]
-                state.currentRole = payload.role; //[cite: 9]
-                updateSessionUI(); //[cite: 9]
+                state.currentRole = payload.role;
+                updateSessionUI();
             }
         },
     );
