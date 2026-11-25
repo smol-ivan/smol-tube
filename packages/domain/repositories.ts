@@ -1,19 +1,17 @@
 // domain/repositories.ts
 //
-// Estas interfaces son el "contrato" que separan domain/ de dónde
-// vive realmente el estado. domain/ (y los handlers de tus adapters)
-// solo conocen estas firmas -- nunca importan "Map", ni "aws-sdk",
-// ni nada concreto.
+// These interfaces are the contract between domain/ and wherever the
+// state actually lives. domain/ (and the adapters' handlers) only know
+// these signatures -- they never import "Map", "aws-sdk" or anything
+// concrete.
 //
-// Criterio de diseño: cada método debe tener sentido implementado
-// tanto por un Map en memoria (desarrollo local) como por DynamoDB
-// (producción). Si un método solo cobra sentido en uno de los dos
-// mundos, no pertenece aquí.
+// Design rule: every method must make sense implemented both by an
+// in-memory Map (local development) and by DynamoDB (production). A
+// method that only makes sense in one of them doesn't belong here.
 //
-// Por eso, por ejemplo, NO hay un método tipo "runTransaction" (tiene
-// sentido en SQL, no aquí) ni un método tipo "scanAll sin filtro"
-// (DynamoDB lo penaliza fuerte, un Map lo soporta gratis -- preferimos
-// diseñar como si el costo de Dynamo también aplicara al Map).
+// That's why there is no "runTransaction" (an SQL idea) and no
+// unfiltered "scanAll" (expensive in DynamoDB, free in a Map -- the
+// design assumes DynamoDB's costs apply to the Map too).
 
 import { Room } from "./room";
 import { User } from "./user";
@@ -22,12 +20,10 @@ import { Connection } from "./connection";
 export interface RoomRepository {
     getRoom(roomId: string): Promise<Room | null>;
 
-    // Guarda el Room completo. Simplicidad ante todo: no manejamos
-    // updates parciales aquí (eso lo puede resolver la implementación
-    // concreta si hace falta optimizar más adelante, ej. con
-    // UpdateExpression de Dynamo) -- domain/ siempre trabaja con el
-    // objeto Room completo, igual que ya hacen las funciones puras
-    // que vimos en playback-rules.ts.
+    // Saves the whole Room. Simplicity first: no partial updates here
+    // (a concrete implementation can optimize later, e.g. with a
+    // DynamoDB UpdateExpression) -- domain/ always works with the
+    // complete Room object, like the pure functions in playback-rules.ts.
     saveRoom(room: Room): Promise<void>;
 
     deleteRoom(roomId: string): Promise<void>;

@@ -1,8 +1,8 @@
 // src/state.ts
 import { WSClient } from "./wsClient";
-import type { ConnectedUser, ChatMsg, PlaylistItem } from "./types"; //
+import type { ConnectedUser, ChatMsg, PlaylistItem } from "./types";
 
-// Coloca aquí la URL wss:// que te dio AWS SAM al final del despliegue
+// wss:// URL of the API Gateway WebSocket stage (the WebSocketURI output of the SAM stack)
 const SOCKET_URL = import.meta.env.PUBLIC_SOCKET_URL;
 
 if (!SOCKET_URL) {
@@ -12,21 +12,20 @@ if (!SOCKET_URL) {
 const wsClient = new WSClient(SOCKET_URL);
 
 export const state = {
-    socket: wsClient, // Reemplazamos io() por nuestra clase custom
-    connected: false, //
-    displayName: "", //[cite: 9]
-    currentUserId: "", //[cite: 9]
-    currentRole: "", //[cite: 9]
-    users: [] as ConnectedUser[], //[cite: 9]
-    chat: [] as ChatMsg[], //[cite: 9]
-    playlist: [] as PlaylistItem[], //[cite: 9]
-    history: [] as PlaylistItem[], //[cite: 9]
-    skipVotes: [] as string[], //[cite: 9]
+    socket: wsClient, // Native WebSocket wrapper (replaced socket.io-client)
+    connected: false,
+    displayName: "",
+    currentUserId: "",
+    currentRole: "",
+    users: [] as ConnectedUser[],
+    chat: [] as ChatMsg[],
+    playlist: [] as PlaylistItem[],
+    history: [] as PlaylistItem[],
+    skipVotes: [] as string[],
     playback: {
-        //[cite: 9]
-        videoId: null as string | null, //[cite: 9]
-        currentTime: 0, //[cite: 9]
-        paused: true, //[cite: 9]
-        leaderUserId: null as string | null, //[cite: 9]
+        videoId: null as string | null,
+        currentTime: 0,
+        paused: true,
+        leaderUserId: null as string | null,
     },
 };

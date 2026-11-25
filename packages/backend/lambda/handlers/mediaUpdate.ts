@@ -23,7 +23,7 @@ export const handler = withContext(async ({ room, user, payload }) => {
 
     await roomRepo.saveRoom(updatedRoom);
 
-    // CRÍTICO: El frontend de smol-tube espera "roomState", no "mediaUpdate"
+    // The client listens for "roomState", not "mediaUpdate"
     await broadcastToRoom(room.roomId, "roomState", { room: updatedRoom });
 
     return { statusCode: 200 };

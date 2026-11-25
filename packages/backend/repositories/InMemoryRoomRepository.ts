@@ -1,8 +1,8 @@
 // adapters/repositories/InMemoryRoomRepository.ts
 //
-// Implementación para desarrollo local. Todo vive en un Map mientras
-// el proceso Node esté vivo. Se pierde al reiniciar -- coherente con
-// tu decisión de no persistir nada de verdad.
+// Local development implementation. Everything lives in a Map for as
+// long as the Node process runs and is lost on restart, which matches
+// the project's choice of not persisting anything long-term.
 
 import { Room, RoomRepository } from "@smol-tube/domain";
 

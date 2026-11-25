@@ -1,12 +1,10 @@
 // adapters/repositories/DynamoRoomRepository.ts
 //
-// Implementación de producción. Misma interfaz que
-// InMemoryRoomRepository -- domain/ y los handlers de Lambda no
-// pueden distinguir cuál está detrás.
+// Production implementation. Same interface as InMemoryRoomRepository,
+// so domain/ and the Lambda handlers can't tell which one is behind it.
 //
-// Diseño de tabla (lo veremos a detalle cuando lleguemos a esa etapa,
-// aquí solo lo mínimo para que este archivo tenga sentido):
-//   Tabla: Rooms
+// Table layout:
+//   Table: Rooms
 //   Partition key: roomId (string)
 //   Atributo "data": el Room completo serializado como JSON
 //   Atributo "expiresAt": epoch seconds, configurado como TTL de la tabla

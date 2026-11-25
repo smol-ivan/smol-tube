@@ -1,9 +1,8 @@
 // domain/playback-rules.ts
 //
-// Mismo ejemplo que vimos antes (applyMediaUpdate), ahora escrito con
-// las entidades reales que acabamos de definir. Esta es la función
-// que tanto tu adapter de Socket.IO local como tu Lambda de producción
-// van a llamar -- sin reescribirla.
+// Playback rules (leader authority, queue transitions, skip votes).
+// Both the local Socket.IO adapter and the production Lambdas call
+// these same functions -- no adapter reimplements them.
 
 import { Room, isBanned } from "./room";
 import { User, hasPermission } from "./user";
@@ -16,9 +15,9 @@ export interface MediaUpdateRequest {
     paused: boolean;
 }
 
-// Devuelve el nuevo estado de reproducción si la petición es válida,
-// o null si debe ignorarse (mismo comportamiento que el
-// "if (this.leader !== user) return;" que vimos en playlist.js).
+// Returns the new playback state if the request is valid, or null if
+// it must be ignored (same behaviour as CyTube's
+// "if (this.leader !== user) return;" in playlist.js).
 export function applyMediaUpdate(
     room: Room,
     request: MediaUpdateRequest,

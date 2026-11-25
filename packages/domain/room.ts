@@ -1,9 +1,8 @@
 // domain/room.ts
 //
-// El estado de TU ÚNICA sala (recuerda: decidiste no manejar canales
-// múltiples, solo una sala principal). Aun así modelamos "roomId" para
-// no cerrarnos la puerta si algún día quisieras más de una, pero en la
-// práctica hoy siempre sería el mismo valor fijo (ej. "main").
+// State of the room. The app is designed around a single main room (no
+// multiple channels), but "roomId" is still modeled to keep the door
+// open for more; in practice it is always the same fixed value ("main").
 
 export interface PlaybackState {
     videoId: string | null; // null = no hay nada cargado
