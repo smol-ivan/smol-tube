@@ -1,0 +1,6 @@
+# Each package has its own Prettier setup
+packages/
+
+pnpm-lock.yaml
+.direnv/
+.aws-sam/
